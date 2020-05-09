@@ -1,14 +1,18 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: `${__dirname}/app/index.html`,
+  template: `${__dirname}/index.html`,
   filename: 'index.html',
   inject: 'body',
 });
 
+const path = require("path");
+const webpack = require("webpack");
+
 module.exports = {
   entry: [
-    './app/index.js',
+    'webpack-hot-middleware/client?path=http://csci2720.cse.cuhk.edu.hk/2050/__webpack_hmr',
+    './src/index.js',
   ],
   output: {
     path: `${__dirname}/dist`,
@@ -30,10 +34,21 @@ module.exports = {
       }
     ],
   },
-  devServer: {
-    inline: true,
-    port: 3000,
-  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    HTMLWebpackPluginConfig
+  ]
+  // devServer: {
+  //   inline: true,
+  //   port: 2050,
+  // },
   // plugins 放置所使用的外掛
-  plugins: [HTMLWebpackPluginConfig],
+  // plugins: [HTMLWebpackPluginConfig]
+  // plugins: [
+  //   new HtmlWebPackPlugin({
+  //     template: "./index.html",
+  //     filename: "./index.html",
+  //     excludeChunks: [ 'server' ]
+  //   })
+  // ]
 };
