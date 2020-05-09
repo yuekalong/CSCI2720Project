@@ -1,11 +1,11 @@
 import React from 'react';
 
-import TopBar from 'components/TopBar.js';
-import ResTable from 'components/ResTable.js';
-import GoogleMap from 'components/GoogleMap.js';
-import FavTable from 'components/FavTable.js';
-
-import IndexHeader from "components/Headers/IndexHeader.js";
+import TopBar from '../components/TopBar.js';
+import ResTable from '../components/ResTable.js';
+import GoogleMap from '../components/GoogleMap.js';
+import FavTable from '../components/FavTable.js';
+//
+// import IndexHeader from "../components/Headers/IndexHeader.js";
 
 class MainPage extends React.Component{
     constructor(props){
@@ -16,11 +16,10 @@ class MainPage extends React.Component{
     }
     render(){
         return(
-            <>
-                <IndexHeader />
+            <React.Fragment>
                 <div>
                     <TopBar>
-                    </TopBar> 
+                    </TopBar>
                     <ResTable>
                     </ResTable>
                     <GoogleMap>
@@ -28,7 +27,7 @@ class MainPage extends React.Component{
                     <FavTable>
                     </FavTable>
                 </div>
-            </>
+            </React.Fragment>
         )
     }
 }
