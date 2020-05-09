@@ -6,4 +6,4 @@ var FavoriteListSchema = new Schema({
     favorite: [mongoose.ObjectId]
 });
 
-module.export = mongoose.model('location', FavoriteListSchema);
+module.export = mongoose.model('FavoriteList', FavoriteListSchema);

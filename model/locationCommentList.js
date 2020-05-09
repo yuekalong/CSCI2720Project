@@ -6,4 +6,4 @@ var LocationCommentListSchema = new Schema({
     commentList: [mongoose.ObjectId]
 });
 
-module.export = mongoose.model('location', LocationCommentListSchema);
+module.export = mongoose.model('LocationCommentList', LocationCommentListSchema);

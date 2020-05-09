@@ -7,4 +7,4 @@ var AdminSchema = new Schema({
     password: String
 });
 
-module.export = mongoose.model('location', AdminSchema);
+module.export = mongoose.model('Admin', AdminSchema);

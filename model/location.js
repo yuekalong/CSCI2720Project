@@ -14,4 +14,4 @@ var LocationSchema = new Schema({
     rating: Number
 });
 
-module.export = mongoose.model('location', LocationSchema);
+module.export = mongoose.model('Location', LocationSchema);

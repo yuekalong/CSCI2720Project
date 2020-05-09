@@ -8,4 +8,4 @@ var CommentSchema = new Schema({
     date: {type: Date, default: Date.now}
 });
 
-module.export = mongoose.model('location', CommentSchema);
+module.export = mongoose.model('Comment', CommentSchema);
