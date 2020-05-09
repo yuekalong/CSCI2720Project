@@ -38,17 +38,4 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     HTMLWebpackPluginConfig
   ]
-  // devServer: {
-  //   inline: true,
-  //   port: 2050,
-  // },
-  // plugins 放置所使用的外掛
-  // plugins: [HTMLWebpackPluginConfig]
-  // plugins: [
-  //   new HtmlWebPackPlugin({
-  //     template: "./index.html",
-  //     filename: "./index.html",
-  //     excludeChunks: [ 'server' ]
-  //   })
-  // ]
 };
