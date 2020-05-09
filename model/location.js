@@ -8,7 +8,7 @@ var LocationSchema = new Schema({
     latitude: SchemaTypes.Double,
     longitude:   SchemaTypes.Double,
     locationName:  { type: String, required:true },
-    photo: SchemaTypes.Url,
+    photo: String,
     address: [{ name: String }],
     phoneNum: Number,
     rating: Number
