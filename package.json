@@ -2,7 +2,7 @@
   "name": "csci2720project",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "dev": "webpack-dev-server --devtool eval --progress --colors --content-base build"
   },
@@ -33,9 +33,25 @@
   "dependencies": {
     "babel-loader": "^7.1.5",
     "bootstrap": "^4.4.1",
+    "classnames": "^2.2.6",
+    "google-maps-react": "^2.0.6",
+    "moment": "^2.24.0",
+    "mongodb": "^3.5.7",
+    "mongoose": "^5.9.13",
+    "mongoose-double": "0.0.1",
+    "node-sass": "^4.12.0",
+    "nouislider": "^13.1.5",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
+    "react-bootstrap-switch": "^15.5.3",
+    "react-datetime": "^2.16.3",
     "react-dom": "^16.13.1",
-    "webpack-cli": "^3.3.11"
+    "react-icons": "^3.9.0",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "^3.0.1",
+    "reactstrap": "^8.0.0",
+    "webpack-cli": "^3.3.11",
+    "yelp-fusion": "^3.0.0"
   }
 }
