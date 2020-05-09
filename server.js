@@ -38,7 +38,7 @@ app.use('/api/admins', admins);
 app.use('/api/locationCommentLists', lclists);
 app.use('/api/comments', comments);
 
-app.get('*', function(req, res) {
+app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
