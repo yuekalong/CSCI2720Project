@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Location = require('../../models/location');
+const Location = require('../../model/location');
 
 // @route GET api/locations
 // @desc GET All items

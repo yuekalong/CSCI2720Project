@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-const UserSchema = require('../../models/user');
+const User = require('../../model/user');
 
 module.exports = router;

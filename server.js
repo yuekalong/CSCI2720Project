@@ -14,7 +14,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-var dbUri = 'mongodb+srv://JackyChun:qwer1234@cluster0-wt6nl.gcp.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=true';
+var dbUri = 'mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false';
 mongoose.connect(dbUri, {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 mongoose.set('useCreateIndex', true);
