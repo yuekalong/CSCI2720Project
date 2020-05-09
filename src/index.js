@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+
+// Importing the Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+ReactDOM.render(<App />, document.getElementById("app"));
+=======
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
@@ -21,3 +31,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+>>>>>>> 08fc44d3fac62bcd6e36f1726d93fbc4595ed080

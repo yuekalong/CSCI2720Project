@@ -1,10 +1,16 @@
-const express = require('express');
+var path = require('path');
+var express = require('express');
+var app = express();
+var webpack = require('webpack');
+var config = require('./webpack.config');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const path = require('path');
-
-const app = express();
-
+var compiler = webpack(config);
+app.use(require('webpack-dev-middleware')(compiler, {
+  noInfo: true,
+  publicPath: config.output.publicPath
+}));
+app.use(require('webpack-hot-middleware')(compiler));
 app.use(bodyParser.json());
 
 var dbUri = 'mongodb+srv://JackyChun:qwer1234@cluster0-wt6nl.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=true';
@@ -32,9 +38,21 @@ app.use('/api/admins', admins);
 app.use('/api/locationCommentLists', lclists);
 app.use('/api/comments', comments);
 
-app.all('*', function(req, res) {
-    res.send('hello world');
-  });
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
-const port = process.env.PORT || 2015;
-app.listen(port, () => console.log('port 2015')); 
+// app.all('*', function(req, res) {
+//     res.send('hello world');
+//   });
+
+// const port = process.env.PORT || 2015;
+// app.listen(port, () => console.log('port 2015'));
+
+app.listen(2050, function(err) {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log('Listening at http://localhost:2050');
+});
