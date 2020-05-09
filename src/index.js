@@ -1,6 +1,5 @@
 // import React from "react";
 // import ReactDOM from "react-dom";
-// import App from "./App";
 //
 // // Importing the Bootstrap CSS
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,7 +8,7 @@
 // =======
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import { HashRouter, Route, Redirect, Switch } from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import "assets/css/bootstrap.min.css";
@@ -18,14 +17,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 import MainPage from './views/MainPage.js';
+import App from "./App";
 
 ReactDOM.render(
-  <BrowserRouter>
+  <HashRouter>
     <Switch>
-      <Route path="/MainPage" render={props => <MainPage  {...props} />} />
-      <Redirect to="/MainPage" />
+        <Route exact path="/" render={props => <App  {...props} />} />
+        <Route path="/MainPage" render={props => <MainPage  {...props} />} />
+        <Redirect to="/" />
     </Switch>
-  </BrowserRouter>,
+  </HashRouter>,
 
   document.getElementById('app')
 );
