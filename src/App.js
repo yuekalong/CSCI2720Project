@@ -16,18 +16,24 @@ import Tab from "react-bootstrap/Tab";
 //Other Component:
 import LoginContainer from "./components/LoginContainer.js"
 
+const port = "";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {showPopup: false};
-    this.loginSignupPopup.bind(this);
   }
 
-  loginSignupPopup(){
-    this.setState({
-      showPopup: !this.state.showPopup
+  componentDidMount() {
+    axios({
+      method: 'post',
+      url: port+'/api/users/checkLogin',
+    })
+    .then((res) => {
+      alert(res.data);
     });
   }
+
+
 
   render(){
     return(

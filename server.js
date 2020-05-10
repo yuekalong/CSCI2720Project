@@ -4,7 +4,9 @@ var webpack = require('webpack');
 var config = require('./webpack.config');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+var app = express();
 
+// yelp setting
 var yelp = require('yelp-fusion');
 var apiKey = "0kXUjGnFG9S7T53LaoczuYeTz24Enbnn_eNfBsgV5qiwp6iPThyQob1ye3d9oVJ-YU36wegkGLSNcKG8B0vR1EUC5vBvJVJmBGi1QIwqQ75gIzT8sos-9Lk-QRe3XnYx";
 const searchRequest = {
@@ -22,11 +24,8 @@ client.search(searchRequest)
     console.log(error);
 });
 
+// webpack setting
 var compiler = webpack(config);
-
-var app = express();
-
-
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
   publicPath: config.output.publicPath
@@ -34,17 +33,28 @@ app.use(require('webpack-dev-middleware')(compiler, {
 app.use(require('webpack-hot-middleware')(compiler));
 app.use(bodyParser.json());
 
+// db setting
 var dbUri = "mongodb+srv://jackyNg:jackyng@cluster0-7hx7m.gcp.mongodb.net/test?retryWrites=true&w=majority";
 mongoose.connect(dbUri, {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 mongoose.set('useCreateIndex', true);
-
 db.on('error', console.error.bind(console, 'connection error:'));
-
 db.once('open', function () {
 	console.log("Connection is opened...");
 });
 
+// session setting
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+app.use(session({
+  secret: 'csci2720',
+  store: new MongoStore({ url: dbUri }),
+  cookie: { maxAge: 60 * 10000 },
+  saveUninitialized: false,
+  resave: false
+}));
+
+// router
 const locations = require('./routes/api/locations');
 const users = require('./routes/api/users');
 const flists = require('./routes/api/favoriteLists');
@@ -59,25 +69,10 @@ app.use('/api/admins', admins);
 app.use('/api/locationCommentLists', lclists);
 app.use('/api/comments', comments);
 
+// Request
 app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
-
-// app.post('/login', function(req, res) {
-//   console.log(req.body);
-//   res.send("hi");
-// });
-//
-// app.post('/signup', function(req, res) {
-//   console.log(req.body);
-//   res.send("hi2");
-// });
-// app.all('*', function(req, res) {
-//     res.send('hello world');
-//   });
-
-// const port = process.env.PORT || 2015;
-// app.listen(port, () => console.log('port 2015'));
 
 app.listen(2050, function(err) {
   if (err) {
