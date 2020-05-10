@@ -11,7 +11,8 @@ const webpack = require("webpack");
 
 module.exports = {
   entry: [
-    'webpack-hot-middleware/client?path=http://csci2720.cse.cuhk.edu.hk/2050/__webpack_hmr',
+    // 'webpack-hot-middleware/client?path=http://csci2720.cse.cuhk.edu.hk/2050/__webpack_hmr',
+    'webpack-hot-middleware/client',
     './src/index.js',
   ],
   output: {
@@ -31,7 +32,15 @@ module.exports = {
       {
         test:/\.css$/,
         use:['style-loader','css-loader']
-      }
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
     ],
   },
   plugins: [
