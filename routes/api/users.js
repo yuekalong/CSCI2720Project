@@ -46,12 +46,34 @@ router.post("/login", (req, res)=>{
     else{
       bcrypt.compare(data.password, user.password, (err, result) => {
         if (result == true) {
-          res.send("Login Success");
+          req.session.regenerate(function (err) {
+            if (err) res.send("Login Fail");
+            else {
+              req.session.user = data.username;
+              req.session.userType = "user";
+              res.send("Login Success");
+            }
+          });
         }
         else res.send("Password Not Correct");
       });
     }
   });
+});
+
+router.post('/checkLogin', (req, res) => {
+  var user = '';
+  var isLogined = false;
+  var userType = 'guest';
+  if (!(req.session.user == undefined)) {
+    user = req.session.user;
+    isLogined = true;
+    userType = req.session.userType
+    res.send("logined");
+  }
+  else {
+    res.send("not logined");
+  }
 });
 
 

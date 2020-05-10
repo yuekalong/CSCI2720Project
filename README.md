@@ -31,3 +31,6 @@ change:
 ```
 const post = "[your port]"
 ```
+## Components with ajax
+1. LoginContainer
+2. App.js
