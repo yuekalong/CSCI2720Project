@@ -1,0 +1,28 @@
+.homePage {
+  background-image: url("../img/background.jpg");
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.loginContainer {
+  border-radius: 25px;
+  padding: 30px;
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 25%;
+  bottom: 10%;
+  margin: auto;
+  background: white;
+}
+
+.loginContainerTab {
+  margin-top: 10px;
+}
