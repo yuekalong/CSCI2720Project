@@ -1,8 +1,33 @@
 # CSCI2720 Project
 ## New Update
-I have uploaded the react website.
-Plz input this command in your CLI to run the react website server and go to http://127.0.0.1:3000/ to see the website:
+If you would like to try the server on your VM, you need to the following changes:
+1. In server.js:
 ```
-npm run dev
+var dbUri = "mongodb://[username]:[pwd]@127.0.0.1:27017/[username]?authSource=[username]&compressors=snappy&gssapiServiceName=mongodb";
 ```
-*dont forget to install webpack before run, if you dont have it.
+&&
+```
+app.listen([your port], function(err) {
+```
+
+2. In webpack.config.js:
+change:
+```
+entry: [
+    'webpack-hot-middleware/client',
+    './src/index.js',
+  ],
+```
+to
+```
+entry: [
+    'webpack-hot-middleware/client?path=http://csci2720.cse.cuhk.edu.hk/[your port]/__webpack_hmr',
+    './src/index.js',
+  ],
+```
+3. every component with ajax:
+
+change:
+```
+const post = "[your port]"
+```

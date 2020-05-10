@@ -15,6 +15,8 @@ import Tab from "react-bootstrap/Tab";
 
 import "../assets/css/LoginContainer.css";
 
+const port = "";
+
 class LoginContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +43,7 @@ class LoginContainer extends React.Component {
     alert('Login\n' + 'Username: ' + this.state.username  + '\nPassword: ' + this.state.password);
     axios({
       method: 'post',
-      url: '/api/users/login',
+      url: port+'/api/users/login',
       data: {
         username: this.state.username,
         password: this.state.password
@@ -76,7 +78,7 @@ class LoginContainer extends React.Component {
     alert('Sign Up\n' + 'Username: ' + this.state.usernameSignup + '\nPassword: ' + this.state.passwordSignup);
     axios({
       method: 'post',
-      url: '/api/users/signup',
+      url: port+'/api/users/signup',
       data: {
         username: this.state.usernameSignup,
         password: this.state.passwordSignup
