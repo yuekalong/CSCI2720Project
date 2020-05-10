@@ -28,6 +28,8 @@ class LoginSignupPopup extends React.Component {
     this.emailInputSignup = this.emailInputSignup.bind(this);
     this.passwordInputSignup = this.passwordInputSignup.bind(this);
     this.SignupSubmit = this.SignupSubmit.bind(this);
+
+    this.closeblock = this.closeblock.bind(this);
   }
 
   emailInputLogin(e) {
@@ -60,6 +62,9 @@ class LoginSignupPopup extends React.Component {
     e.preventDefault();
   }
 
+  closeblock(){
+    this.props.closeloginSigup();
+  }
 
   render() {
     return (
@@ -79,6 +84,9 @@ class LoginSignupPopup extends React.Component {
             <Button variant="primary" type="submit">
               Submit
             </Button>
+            <Button variant="danger" onClick = {this.closeblock}>
+              Cancel
+            </Button>
           </Form>
           </Tab>
           <Tab eventKey="signup" title="Sign Up">
@@ -97,6 +105,9 @@ class LoginSignupPopup extends React.Component {
             </Form.Group>
             <Button variant="primary" type="submit">
               Submit
+            </Button>
+            <Button variant="danger" onClick = {this.closeblock}>
+              Cancel
             </Button>
           </Form>
           </Tab>
@@ -129,47 +140,7 @@ class App extends React.Component {
           </Nav>
           <Button onClick={() => this.loginSignupPopup()}>Login / Sign Up</Button>
       </Navbar>
-
-        <div className='popup_inner'>
-          <Tabs defaultActiveKey="login" id="loginSignupTabs">
-            <Tab eventKey="login" title="Login">
-            <Form onSubmit={this.loginSubmit}>
-              <Form.Group>
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" onChange={this.emailInputLogin}/>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" onChange={this.passwordInputLogin}/>
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
-            </Tab>
-            <Tab eventKey="signup" title="Sign Up">
-            <Form onSubmit={this.SignupSubmit}>
-              <Form.Group>
-                <Form.Label>User Name</Form.Label>
-                <Form.Control type="text" placeholder="Set username" onChange={this.nameInputSignup}/>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control type="email" placeholder="Enter your email" onChange={this.emailInputSignup}/>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Set password" onChange={this.passwordInputSignup}/>
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
-            </Tab>
-          </Tabs>
-        </div>
       {this.state.showPopup ? <LoginSignupPopup closeloginSigup={() => this.loginSignupPopup()}/> : null}
-
     </React.Fragment>
   );
   }

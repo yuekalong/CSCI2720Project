@@ -1,11 +1,32 @@
 var path = require('path');
 var express = require('express');
-var app = express();
 var webpack = require('webpack');
 var config = require('./webpack.config');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+
+var yelp = require('yelp-fusion');
+var apiKey = "0kXUjGnFG9S7T53LaoczuYeTz24Enbnn_eNfBsgV5qiwp6iPThyQob1ye3d9oVJ-YU36wegkGLSNcKG8B0vR1EUC5vBvJVJmBGi1QIwqQ75gIzT8sos-9Lk-QRe3XnYx";
+const searchRequest = {
+  categories: "restaurants",
+  location: "The Chinese University of Hong Kong",
+  radius:"1000"
+};
+const client = yelp.client(apiKey);
+client.search(searchRequest)
+  .then((data) => {
+    var len = data.jsonBody.total;
+    console.log(len);
+  })
+  .catch((error) => {
+    console.log(error);
+});
+
 var compiler = webpack(config);
+
+var app = express();
+
+
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
   publicPath: config.output.publicPath
