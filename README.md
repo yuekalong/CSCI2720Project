@@ -3,7 +3,7 @@
 If you would like to try the server on your VM, you need to the following changes:
 1. In server.js:
 ```
-var dbUri = "mongodb://[username]:[pwd].0.0.1:27017/[username]?authSource=[username]&compressors=snappy&gssapiServiceName=mongodb";
+var dbUri = "mongodb://[username]:[pwd]@127.0.0.1:27017/[username]?authSource=[username]&compressors=snappy&gssapiServiceName=mongodb";
 ```
 &&
 ```
