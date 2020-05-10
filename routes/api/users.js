@@ -4,10 +4,6 @@ const bodyParser = require("body-parser");
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 
-// var dbUri = 'mongodb+srv://JackyChun:qwer1234@cluster0-wt6nl.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=true';
-var dbUri = "mongodb+srv://jackyNg:jackyng@cluster0-7hx7m.gcp.mongodb.net/test?retryWrites=true&w=majority";
-mongoose.connect(dbUri, {useNewUrlParser: true, useUnifiedTopology: true});
-
 let User = require('../../model/user.model');
 
 router.post('/signup', (req, res) => {
