@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const Admin = require("../../model/admin");
-let Location = require("../../model/location");
+const Location = require("../../model/location");
+const User = require("../../model/user.model");
 
 // yelp setting
 const yelp = require("yelp-fusion");
@@ -110,21 +112,111 @@ router.put("/updateLocation", async (req, res) => {
     }
   );
   console.log(update);
-  if (update.n == 0) return res.send("Cannot update: Invalid edit format!");
+  if (update.n == 0)
+    return res.send("Cannot update: Invalid edit format or data not exists!");
   else return res.send(updatedLocation);
 });
 // D - delete location data
-router.delete("/deleteLocation/:locationID", (req, res) => {
+router.delete("/deleteLocation/:locationID", async (req, res) => {
   const locationID = req.params.locationID;
 
-  Location.deleteOne({ locationID: locationID }, (err) => {
-    if (err) return res.send(err.message);
-  });
+  const deleteData = await Location.deleteOne(
+    { locationID: locationID },
+    (err) => {
+      if (err) return res.send(err.message);
+    }
+  );
 
-  return res.send("Success");
+  if (deleteData.n == 0)
+    return res.send("Cannot delete: Invalid data format or data not exists!");
+  else return res.send("Success");
 });
 
 // 3. CRUD user data (username and password only) in the local database
+
+// C - create user data
+router.post("/createUser", (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  const saltRounds = 10;
+  // hash the password
+  bcrypt.hash(password, saltRounds).then((hash) => {
+    const hashedPassword = hash;
+    User.find({}, "userID")
+      .sort({ userID: -1 })
+      .limit(1)
+      .exec(function (err, maxIdUser) {
+        if (err) res.send(err);
+        else {
+          var maxId = 0;
+          if (maxIdUser.length == 1) {
+            maxId = maxIdUser[0].userID;
+          }
+          var user = new User({
+            userID: maxId + 1,
+            username: username,
+            password: hashedPassword,
+          });
+          user.save(function (err) {
+            if (err) {
+              res.send("username used");
+            } else {
+              res.send("createUser successfully");
+            }
+          });
+        }
+      });
+  });
+});
+
+// R - read user data
+router.get("/readUser", async (req, res) => {
+  let result = await User.find().exec();
+  return res.send(result);
+});
+
+// U - update user data
+router.put("/updateUser", async (req, res) => {
+  const userID = req.body.userID;
+  const updatedUsername = req.body.username;
+  const updatedPassword = req.body.password;
+  const theUser = await User.findOne({ userID: userID });
+  let update;
+  if (updatedPassword == theUser.password) {
+    update = await User.updateOne(
+      { userID: userID },
+      {
+        username: updatedUsername,
+        password: updatedPassword,
+      }
+    );
+  } else {
+    const password = await bcrypt.hash(updatedPassword, 10);
+    update = await User.updateOne(
+      { userID: userID },
+      {
+        username: updatedUsername,
+        password: password,
+      }
+    );
+  }
+  if (update.n == 0)
+    return res.send("Cannot update: Invalid edit format or data not exists!");
+  else return res.send("updated user");
+});
+
+// D - delete user data
+router.delete("/deleteUser/:userID", async (req, res) => {
+  const userID = req.params.userID;
+
+  const deleteData = await User.deleteOne({ userID: userID }, (err) => {
+    if (err) return res.send(err.message);
+  });
+  console.log(deleteData);
+  if (deleteData.n == 0)
+    return res.send("Cannot delete: Invalid data format or data not exists!");
+  else return res.send("Success");
+});
 
 // 4. Obtain location data from CSV file upload (sample needs to be provided for user on data format)
 
