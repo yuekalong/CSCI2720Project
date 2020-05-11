@@ -12,6 +12,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import FormControl from "react-bootstrap/FormControl";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
+import Alert from "react-bootstrap/Alert";
 
 import "../assets/css/LoginContainer.css";
 
@@ -26,9 +27,15 @@ class LoginContainer extends React.Component {
     this.passwordInputLogin = this.passwordInputLogin.bind(this);
     this.loginSubmit = this.loginSubmit.bind(this);
 
+    this.usernameNotFoundWarning = false;
+    this.pwdNotCorrectWarning = false;
+
     this.nameInputSignup = this.nameInputSignup.bind(this);
     this.passwordInputSignup = this.passwordInputSignup.bind(this);
     this.SignupSubmit = this.SignupSubmit.bind(this);
+
+    this.sigupSuccess = false;
+    this.usernameUsed = false;
   }
 
   nameInputLogin(e) {
@@ -40,7 +47,6 @@ class LoginContainer extends React.Component {
   }
 
   loginSubmit(e) {
-    alert('Login\n' + 'Username: ' + this.state.username  + '\nPassword: ' + this.state.password);
     axios({
       method: 'post',
       url: port+'/api/users/login',
@@ -51,13 +57,15 @@ class LoginContainer extends React.Component {
     })
     .then((res) => {
       if(res.data == "Login Success"){
-        alert("Login Success");
+        window.location = "/#/MainPage";
       }
       else if(res.data == "Username Not Found"){
-        alert("Username Not Found");
+        this.setState({usernameNotFoundWarning: true});
+        this.setState({pwdNotCorrectWarning: false});
       }
       else if(res.data == "Password Not Correct"){
-        alert("Password Not Correct");
+        this.setState({usernameNotFoundWarning: false});
+        this.setState({pwdNotCorrectWarning: true});
       }
       else{
         alert("error");
@@ -75,7 +83,6 @@ class LoginContainer extends React.Component {
   }
 
   SignupSubmit(e) {
-    alert('Sign Up\n' + 'Username: ' + this.state.usernameSignup + '\nPassword: ' + this.state.passwordSignup);
     axios({
       method: 'post',
       url: port+'/api/users/signup',
@@ -86,10 +93,12 @@ class LoginContainer extends React.Component {
     })
     .then(res=> {
       if(res.data == "signup done"){
-        alert("hi you have signup");
+        this.setState({sigupSuccess: true});
+        this.setState({usernameUsed: false});
       }
       else if (res.data == "usernameUsed") {
-        alert("usernameUsed");
+        this.setState({sigupSuccess: false});
+        this.setState({usernameUsed: true});
       }
       else {
         alert("error");
@@ -116,6 +125,9 @@ class LoginContainer extends React.Component {
             <Button variant="primary" type="submit">
               Submit
             </Button>
+            <div style={{padding: "10px"}}></div>
+            {this.state.usernameNotFoundWarning ? <Alert variant="warning">Username Not Found</Alert> : null}
+            {this.state.pwdNotCorrectWarning ? <Alert variant="danger">Password Not Correct</Alert> : null}
           </Form>
           </Tab>
           <Tab eventKey="signup" title="Sign Up" className="loginContainerTab">
@@ -131,6 +143,9 @@ class LoginContainer extends React.Component {
             <Button variant="primary" type="submit">
               Submit
             </Button>
+            <div style={{padding: "10px"}}></div>
+            {this.state.sigupSuccess ? <Alert variant="success">Signup Success</Alert> : null}
+            {this.state.usernameUsed ? <Alert variant="warning">This username have been used</Alert> : null}
           </Form>
           </Tab>
         </Tabs>

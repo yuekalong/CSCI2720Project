@@ -17,17 +17,23 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import MainPage from "./views/MainPage.js";
 import AdminPage from "./views/AdminPage.js";
-import App from "./App";
+import LoginPage from "./views/LoginPage.js";
+import Navbar from "react-bootstrap/Navbar";
 
 ReactDOM.render(
-  <HashRouter>
-    <Switch>
-      <Route exact path="/" render={(props) => <App {...props} />} />
-      <Route path="/MainPage" render={(props) => <MainPage {...props} />} />
-      <Route path="/AdminPage" render={(props) => <AdminPage {...props} />} />
-      <Redirect to="/" />
-    </Switch>
-  </HashRouter>,
+  <React.Fragment>
+    <Navbar className="navBar shadow" bg="light" expand="lg">
+      <Navbar.Brand href="#">FoodRoundCU</Navbar.Brand>
+    </Navbar>
+    <HashRouter>
+      <Switch>
+        <Route exact path="/" render={(props) => <LoginPage {...props} />} />
+        <Route path="/MainPage" render={(props) => <MainPage {...props} />} />
+        <Route path="/AdminPage" render={(props) => <AdminPage {...props} />} />
+        <Redirect to="/" />
+      </Switch>
+    </HashRouter>
+  </React.Fragment>,
 
   document.getElementById("app")
 );
