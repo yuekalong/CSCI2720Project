@@ -56,6 +56,43 @@ router.get("/flushData", (req, res) => {
 });
 
 // 2. CRUD location data in the local database
+// C - create location data
+function generateLocationID() {
+  var result = "";
+  var characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+  var charactersLength = characters.length;
+  for (var i = 0; i < 22; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+router.post("/createLocation", (req, res) => {
+  console.log(req.body);
+  let restaurant = JSON.parse(req.body.obj);
+  console.log(restaurant);
+  let newLocation = new Location({
+    locationID: generateLocationID(),
+    latitude: restaurant.latitude,
+    longitude: restaurant.longitude,
+    locationName: restaurant.locationName,
+    photo: restaurant.photo,
+    address: restaurant.address,
+    phoneNum: restaurant.phoneNum,
+    rating: restaurant.rating,
+  });
+  newLocation.save((err) => {
+    if (err) return res.send(err.message);
+  });
+  res.send(restaurant);
+});
+
+// R - read location data
+router.get("readLocation", (req, res) => {});
+// U - update location data
+router.put("updateLocation", (req, res) => {});
+// D - delete location data
+router.delete("deleteLocation", (req, res) => {});
 
 // 3. CRUD user data (username and password only) in the local database
 
