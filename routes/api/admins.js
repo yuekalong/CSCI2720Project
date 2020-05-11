@@ -68,11 +68,17 @@ router.get("/flushData", (req, res) => {
           if (err) return res.send(err.message);
         });
       });
-      return res.send(result);
+      return res.send({
+        success: true,
+        data: result,
+      });
     })
     .then(() => {})
     .catch((error) => {
-      return res.send(error);
+      return res.send({
+        success: false,
+        error: error,
+      });
     });
 });
 
@@ -93,15 +99,29 @@ router.post("/createLocation", (req, res) => {
     rating: restaurant.rating,
   });
   newLocation.save((err) => {
-    if (err) return res.send(err.message);
+    if (err)
+      return res.send(
+        res.send({
+          success: false,
+          error: err.message,
+        })
+      );
   });
-  return res.send(restaurant);
+  return res.send(
+    res.send({
+      success: true,
+      data: restaurant,
+    })
+  );
 });
 
 // R - read location data
 router.get("/readLocation", async (req, res) => {
   let result = await Location.find().exec();
-  return res.send(result);
+  return res.send({
+    success: true,
+    data: result,
+  });
 });
 
 // U - update location data
@@ -122,23 +142,36 @@ router.put("/updateLocation", async (req, res) => {
   );
   console.log(update);
   if (update.n == 0)
-    return res.send("Cannot update: Invalid edit format or data not exists!");
-  else return res.send(updatedLocation);
+    return res.send(
+      res.send({
+        success: false,
+        error: "Cannot update: Invalid edit format or data not exists!",
+      })
+    );
+  else
+    return res.send(
+      res.send({
+        success: true,
+        data: updatedLocation,
+      })
+    );
 });
 // D - delete location data
 router.delete("/deleteLocation/:locationID", async (req, res) => {
   const locationID = req.params.locationID;
 
-  const deleteData = await Location.deleteOne(
-    { locationID: locationID },
-    (err) => {
-      if (err) return res.send(err.message);
-    }
-  );
-
+  const deleteData = await Location.deleteOne({
+    locationID: locationID,
+  }).exec();
   if (deleteData.n == 0)
-    return res.send("Cannot delete: Invalid data format or data not exists!");
-  else return res.send("Success");
+    return res.send({
+      success: false,
+      error: "Cannot delete: Invalid data format or data not exists!",
+    });
+  else
+    return res.send({
+      success: true,
+    });
 });
 
 // 3. CRUD user data (username and password only) in the local database
@@ -168,9 +201,14 @@ router.post("/createUser", (req, res) => {
           });
           user.save(function (err) {
             if (err) {
-              res.send("username used");
+              res.send({
+                success: false,
+                error: "username has been taken!",
+              });
             } else {
-              res.send("createUser successfully");
+              res.send({
+                success: true,
+              });
             }
           });
         }
@@ -181,7 +219,10 @@ router.post("/createUser", (req, res) => {
 // R - read user data
 router.get("/readUser", async (req, res) => {
   let result = await User.find().exec();
-  return res.send(result);
+  return res.send({
+    success: true,
+    data: result,
+  });
 });
 
 // U - update user data
@@ -210,20 +251,30 @@ router.put("/updateUser", async (req, res) => {
     );
   }
   if (update.n == 0)
-    return res.send("Cannot update: Invalid edit format or data not exists!");
-  else return res.send("updated user");
+    return res.send({
+      success: false,
+      error: "Cannot update: Invalid edit format or data not exists!",
+    });
+  else
+    return res.send({
+      success: true,
+    });
 });
 
 // D - delete user data
 router.delete("/deleteUser/:userID", async (req, res) => {
   const userID = req.params.userID;
 
-  const deleteData = await User.deleteOne({ userID: userID }, (err) => {
-    if (err) return res.send(err.message);
-  });
+  const deleteData = await User.deleteOne({ userID: userID });
   if (deleteData.n == 0)
-    return res.send("Cannot delete: Invalid data format or data not exists!");
-  else return res.send("Success");
+    return res.send({
+      success: false,
+      error: "Cannot delete: Invalid data format or data not exists!",
+    });
+  else
+    return res.send({
+      success: true,
+    });
 });
 
 // 4. Obtain location data from CSV file upload (sample needs to be provided for user on data format)
@@ -241,11 +292,19 @@ router.post("/readCSV", upload.single("csvfile"), async (req, res) => {
       rating: restaurant.rating,
     });
     newLocation.save((err) => {
-      if (err) return res.send(err.message);
+      if (err)
+        return res.send({
+          success: false,
+          error: err.message,
+        });
     });
   });
-  res.send(csvjson);
+  res.send({
+    success: true,
+    data: csvjson,
+  });
 });
 // 5. Log out as admin
+// should be handle in front-end because only login through link
 
 module.exports = router;
