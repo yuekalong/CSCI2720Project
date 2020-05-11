@@ -51,7 +51,7 @@ router.get("/flushData", (req, res) => {
     })
     .then(() => {})
     .catch((error) => {
-      console.log(error);
+      res.send(error);
     });
 });
 
@@ -68,7 +68,6 @@ function generateLocationID() {
   return result;
 }
 router.post("/createLocation", (req, res) => {
-  console.log(req.body);
   let restaurant = JSON.parse(req.body.obj);
   console.log(restaurant);
   let newLocation = new Location({
@@ -88,11 +87,15 @@ router.post("/createLocation", (req, res) => {
 });
 
 // R - read location data
-router.get("readLocation", (req, res) => {});
+router.get("/readLocation", async (req, res) => {
+  let result = await Location.find().exec();
+  res.send(result);
+});
+
 // U - update location data
-router.put("updateLocation", (req, res) => {});
+router.put("/updateLocation", (req, res) => {});
 // D - delete location data
-router.delete("deleteLocation", (req, res) => {});
+router.delete("/deleteLocation", (req, res) => {});
 
 // 3. CRUD user data (username and password only) in the local database
 
