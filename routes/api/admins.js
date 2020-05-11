@@ -1,7 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
+
+// for hashing the password
 const bcrypt = require("bcrypt");
+
+// for upload csv and read it
+const multer = require("multer");
+const upload = multer(multer.memoryStorage());
+const csv = require("csvtojson");
 
 const Admin = require("../../model/admin");
 const Location = require("../../model/location");
@@ -12,6 +19,18 @@ const yelp = require("yelp-fusion");
 const apiKey =
   "0kXUjGnFG9S7T53LaoczuYeTz24Enbnn_eNfBsgV5qiwp6iPThyQob1ye3d9oVJ-YU36wegkGLSNcKG8B0vR1EUC5vBvJVJmBGi1QIwqQ75gIzT8sos-9Lk-QRe3XnYx";
 const client = yelp.client(apiKey);
+
+// generate random location ID
+function generateLocationID() {
+  var result = "";
+  var characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+  var charactersLength = characters.length;
+  for (var i = 0; i < 22; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
 
 // 1. Flush data, reload from the online dataset
 router.get("/flushData", (req, res) => {
@@ -60,16 +79,6 @@ router.get("/flushData", (req, res) => {
 // 2. CRUD location data in the local database
 
 // C - create location data
-function generateLocationID() {
-  var result = "";
-  var characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
-  var charactersLength = characters.length;
-  for (var i = 0; i < 22; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
 router.post("/createLocation", (req, res) => {
   let restaurant = JSON.parse(req.body.obj);
   console.log(restaurant);
@@ -212,14 +221,31 @@ router.delete("/deleteUser/:userID", async (req, res) => {
   const deleteData = await User.deleteOne({ userID: userID }, (err) => {
     if (err) return res.send(err.message);
   });
-  console.log(deleteData);
   if (deleteData.n == 0)
     return res.send("Cannot delete: Invalid data format or data not exists!");
   else return res.send("Success");
 });
 
 // 4. Obtain location data from CSV file upload (sample needs to be provided for user on data format)
-
+router.post("/readCSV", upload.single("csvfile"), async (req, res) => {
+  let csvjson = await csv().fromString(req.file.buffer.toString());
+  csvjson.forEach((restaurant) => {
+    let newLocation = new Location({
+      locationID: generateLocationID(),
+      latitude: restaurant.latitude,
+      longitude: restaurant.longitude,
+      locationName: restaurant.locationName,
+      photo: restaurant.photo,
+      address: [restaurant.address1, restaurant.address2, restaurant.address3],
+      phoneNum: restaurant.phoneNum,
+      rating: restaurant.rating,
+    });
+    newLocation.save((err) => {
+      if (err) return res.send(err.message);
+    });
+  });
+  res.send(csvjson);
+});
 // 5. Log out as admin
 
 module.exports = router;

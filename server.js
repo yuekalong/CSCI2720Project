@@ -36,7 +36,7 @@ app.use(
 );
 app.use(require("webpack-hot-middleware")(compiler));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // db setting
 var dbUri =
