@@ -41,8 +41,7 @@ class CreateLocation extends React.Component {
   }
 
   photoChange(e) {
-    console.log(e.target.value);
-    this.setState({ photo: "e.target.value" });
+    this.setState({ photo: e.target.value });
     console.log(this.state);
   }
   nameChange(e) {
