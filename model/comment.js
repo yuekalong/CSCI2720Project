@@ -1,11 +1,11 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var CommentSchema = new Schema({
-    commentID: String,
-    content: String,
-    replyCommentsList: [mongoose.ObjectId],
-    date: {type: Date, default: Date.now}
+  commentID: String,
+  content: String,
+  replyCommentsList: [mongoose.ObjectId],
+  date: { type: Date, default: Date.now },
 });
 
-module.export = mongoose.model('Comment', CommentSchema);
+module.exports = mongoose.model("Comment", CommentSchema);
