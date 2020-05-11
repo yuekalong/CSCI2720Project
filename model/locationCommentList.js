@@ -1,9 +1,12 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var LocationCommentListSchema = new Schema({
-    lcoationID:  String,
-    commentList: [mongoose.ObjectId]
+  lcoationID: String,
+  commentList: [mongoose.ObjectId],
 });
 
-module.export = mongoose.model('LocationCommentList', LocationCommentListSchema);
+module.exports = mongoose.model(
+  "LocationCommentList",
+  LocationCommentListSchema
+);
