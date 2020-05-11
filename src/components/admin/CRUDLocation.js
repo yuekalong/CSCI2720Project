@@ -479,8 +479,23 @@ class DeleteLocation extends React.Component {
 }
 
 class UploadCSV extends React.Component {
+  constructor(props) {
+    super(props);
+    this.upload = this.upload.bind(this);
+  }
+  upload() {
+    const formData = new FormData();
+    const csvfile = document.getElementById("file");
+    formData.append("csvfile", csvfile.files[0]);
+    axios.post("/api/admins/readCSV", formData);
+  }
   render() {
-    return <Form.File.Input accept="text/csv" />;
+    return (
+      <div>
+        <Form.File.Input id="file" accept="text/csv" />
+        <Button onClick={this.upload}>Upload CSV</Button>
+      </div>
+    );
   }
 }
 
