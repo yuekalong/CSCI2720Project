@@ -47,15 +47,16 @@ router.get("/flushData", (req, res) => {
           if (err) return res.send(err.message);
         });
       });
-      res.send(result);
+      return res.send(result);
     })
     .then(() => {})
     .catch((error) => {
-      res.send(error);
+      return res.send(error);
     });
 });
 
 // 2. CRUD location data in the local database
+
 // C - create location data
 function generateLocationID() {
   var result = "";
@@ -83,19 +84,45 @@ router.post("/createLocation", (req, res) => {
   newLocation.save((err) => {
     if (err) return res.send(err.message);
   });
-  res.send(restaurant);
+  return res.send(restaurant);
 });
 
 // R - read location data
 router.get("/readLocation", async (req, res) => {
   let result = await Location.find().exec();
-  res.send(result);
+  return res.send(result);
 });
 
 // U - update location data
-router.put("/updateLocation", (req, res) => {});
+router.put("/updateLocation", async (req, res) => {
+  const updatedLocation = JSON.parse(req.body.obj);
+  console.log(updatedLocation);
+  const update = await Location.updateOne(
+    { locationID: updatedLocation.locationID },
+    {
+      latitude: updatedLocation.latitude,
+      longitude: updatedLocation.longitude,
+      locationName: updatedLocation.locationName,
+      photo: updatedLocation.photo,
+      address: updatedLocation.address,
+      phoneNum: updatedLocation.phoneNum,
+      rating: updatedLocation.rating,
+    }
+  );
+  console.log(update);
+  if (update.n == 0) return res.send("Cannot update: Invalid edit format!");
+  else return res.send(updatedLocation);
+});
 // D - delete location data
-router.delete("/deleteLocation", (req, res) => {});
+router.delete("/deleteLocation/:locationID", (req, res) => {
+  const locationID = req.params.locationID;
+
+  Location.deleteOne({ locationID: locationID }, (err) => {
+    if (err) return res.send(err.message);
+  });
+
+  return res.send("Success");
+});
 
 // 3. CRUD user data (username and password only) in the local database
 
