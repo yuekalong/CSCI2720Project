@@ -247,5 +247,6 @@ router.post("/readCSV", upload.single("csvfile"), async (req, res) => {
   res.send(csvjson);
 });
 // 5. Log out as admin
+// should be handle in front-end because only login through link
 
 module.exports = router;
