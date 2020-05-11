@@ -68,11 +68,17 @@ router.get("/flushData", (req, res) => {
           if (err) return res.send(err.message);
         });
       });
-      return res.send(result);
+      return res.send({
+        success: true,
+        data: result,
+      });
     })
     .then(() => {})
     .catch((error) => {
-      return res.send(error);
+      return res.send({
+        success: false,
+        error: error,
+      });
     });
 });
 
