@@ -6,26 +6,6 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 var app = express();
 
-// yelp setting
-var yelp = require("yelp-fusion");
-var apiKey =
-  "0kXUjGnFG9S7T53LaoczuYeTz24Enbnn_eNfBsgV5qiwp6iPThyQob1ye3d9oVJ-YU36wegkGLSNcKG8B0vR1EUC5vBvJVJmBGi1QIwqQ75gIzT8sos-9Lk-QRe3XnYx";
-const searchRequest = {
-  categories: "restaurants",
-  location: "The Chinese University of Hong Kong",
-  radius: "1000",
-};
-const client = yelp.client(apiKey);
-client
-  .search(searchRequest)
-  .then((data) => {
-    var len = data.jsonBody;
-    console.log(len);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-
 // webpack setting
 var compiler = webpack(config);
 app.use(

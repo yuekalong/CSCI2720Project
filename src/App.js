@@ -5,7 +5,6 @@ import Jumbotron from "react-bootstrap/Jumbotron";
 import Toast from "react-bootstrap/Toast";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -15,6 +14,7 @@ import Tab from "react-bootstrap/Tab";
 
 //Other Component:
 import LoginContainer from "./components/LoginContainer.js"
+import TopBar from "./components/TopBar.js"
 
 const port = "";
 
@@ -33,15 +33,11 @@ class App extends React.Component {
     });
   }
 
-
-
   render(){
     return(
     <div>
       <LoginContainer />
-      <Navbar className="shadow" bg="light" expand="lg">
-        <Navbar.Brand href="#">FoodRoundCU</Navbar.Brand>
-      </Navbar>
+      <TopBar logined={false}/>
     </div>
   );
   }

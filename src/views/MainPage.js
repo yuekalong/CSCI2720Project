@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container, Row, Col } from 'reactstrap';
 
 import TopBar from '../components/TopBar.js';
 import ResTable from '../components/ResTable.js';
@@ -16,18 +17,26 @@ class MainPage extends React.Component{
     }
     render(){
         return(
-            <React.Fragment>
-                <div>
-                    <TopBar>
-                    </TopBar>
-                    <ResTable>
-                    </ResTable>
-                    <GoogleMap>
-                    </GoogleMap>
-                    <FavTable>
-                    </FavTable>
-                </div>
-            </React.Fragment>
+            <div>
+                <Row>
+                    <Col>
+                        <TopBar logined={true}/>
+                    </Col>
+                </Row>
+                <Container>
+                    <Row>
+                        <Col>
+                            <ResTable />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <GoogleMap />
+                            <FavTable />
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
         )
     }
 }
