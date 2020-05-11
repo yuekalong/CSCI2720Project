@@ -3,7 +3,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Button, Container } from "react-bootstrap";
 
-import FlushDataCard from "../components/admin/FlushDataCard.js";
+import FlushDataCard from "../components/admin/FlushDataCard";
+import CRUDLocation from "../components/admin/CRUDLocation";
+import CRUDUser from "../components/admin/CRUDUser";
 
 class AdminPage extends React.Component {
   constructor(props) {
@@ -25,8 +27,13 @@ class AdminPage extends React.Component {
             <Button>Logout</Button>
           </Link>
         </Navbar>
-        <Container className="container-fluid">
+        <Container fluid>
+          <br />
           <FlushDataCard />
+          <br />
+          <CRUDLocation />
+          <br />
+          <CRUDUser />
         </Container>
       </div>
     );

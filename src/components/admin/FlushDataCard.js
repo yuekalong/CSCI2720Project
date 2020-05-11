@@ -45,7 +45,7 @@ class ConfirmDialog extends React.Component {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}>
-              Close
+              Cancel
             </Button>
             <Button variant="primary" onClick={this.flushData}>
               Confirm

@@ -41,7 +41,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // db setting
 var dbUri =
   "mongodb+srv://jackyNg:jackyng@cluster0-7hx7m.gcp.mongodb.net/test?retryWrites=true&w=majority";
-mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(dbUri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
 var db = mongoose.connection;
 mongoose.set("useCreateIndex", true);
 db.on("error", console.error.bind(console, "connection error:"));
