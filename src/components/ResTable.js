@@ -63,7 +63,7 @@ class ResTable extends React.Component {
                 name="hover-feedback"
                 value={row.value}
                 precision={0.5}
-                readOnly 
+                readOnly
               />
             }
           },

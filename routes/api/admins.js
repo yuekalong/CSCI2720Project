@@ -37,7 +37,7 @@ router.get("/flushData", (req, res) => {
   const searchRequest = {
     categories: "restaurants",
     location: "The Chinese University of Hong Kong",
-    radius: "1000",
+    radius: "10000",
   };
 
   client

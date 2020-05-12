@@ -71,9 +71,6 @@ router.post('/checkLogin', (req, res) => {
     userType = req.session.userType
     res.send("logined");
   }
-  else {
-    res.send("not logined");
-  }
 });
 
 
