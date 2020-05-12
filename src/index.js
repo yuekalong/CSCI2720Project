@@ -20,6 +20,7 @@ import MainPage from "./views/MainPage.js";
 import AdminPage from "./views/AdminPage.js";
 import LoginPage from "./views/LoginPage.js";
 import Navbar from "react-bootstrap/Navbar";
+import LocPage from "./views/LocPage.js";
 
 class App extends React.Component{
   // constructor(props) {
@@ -39,6 +40,7 @@ class App extends React.Component{
             <Route exact path="/" render={(props) => <LoginPage {...props} />} />
             <Route path="/MainPage" render={(props) => <MainPage {...props} />} />
             <Route path="/AdminPage" render={(props) => <AdminPage {...props} />} />
+            <Route path="/loc/:locID" render={(props) => <LocPage {...props} />} />
             <Redirect to="/" />
           </Switch>
         </HashRouter>
