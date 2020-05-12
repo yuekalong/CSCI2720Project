@@ -4,8 +4,11 @@ const mongoose = require('mongoose');
 const FavoriteList = require('../../model/favoriteList');
 
 router.get('/getFav', (req, res) => {
-    const data = FavoriteList.find({userID:'1'});
-    res.json(data);
+    let data = FavoriteList.find().exec();
+    return res.send({
+        success: true,
+        data: data,
+    });
 });
 
 module.exports = router;

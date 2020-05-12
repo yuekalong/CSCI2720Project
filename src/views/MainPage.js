@@ -18,11 +18,7 @@ class MainPage extends React.Component{
     render(){
         return(
             <div>
-                <Row>
-                    <Col>
-                        <TopBar logined={true}/>
-                    </Col>
-                </Row>
+                <TopBar logined={true}/>
                 <Container>
                     <Row>
                         <Col>
@@ -32,7 +28,7 @@ class MainPage extends React.Component{
                     <Row>
                         <Col>
                             <GoogleMap />
-                            <FavTable />
+                            
                         </Col>
                     </Row>
                 </Container>

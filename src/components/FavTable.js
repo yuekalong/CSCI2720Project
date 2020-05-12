@@ -19,7 +19,7 @@ class FavTable extends React.Component{
     }
 
     getData = () =>{
-        Axios.get('../../routes/api/favoriteLists/getFav')
+        Axios.get('/api/favoriteLists/getFav')
             .then((response) => {
                 const data = response.data;
                 this.setState({ favList:data });
