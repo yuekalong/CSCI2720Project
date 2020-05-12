@@ -15,19 +15,38 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import "./assets/scss/paper-kit.scss";
 // import "./assets/demo/demo.css";
 
+import PageNavbar from "./PageNavbar.js";
 import MainPage from "./views/MainPage.js";
 import AdminPage from "./views/AdminPage.js";
-import App from "./App";
+import LoginPage from "./views/LoginPage.js";
+import Navbar from "react-bootstrap/Navbar";
+
+class App extends React.Component{
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     navbarMode: "normal"
+  //   }
+  // }
+  //
+  // shouldComponentUpdate(nextProps, nextState)
+
+  render(){
+    return(
+      <React.Fragment>
+        <HashRouter>
+          <Switch>
+            <Route exact path="/" render={(props) => <LoginPage {...props} />} />
+            <Route path="/MainPage" render={(props) => <MainPage {...props} />} />
+            <Route path="/AdminPage" render={(props) => <AdminPage {...props} />} />
+            <Redirect to="/" />
+          </Switch>
+        </HashRouter>
+      </React.Fragment>
+    );
+  }
+}
 
 ReactDOM.render(
-  <HashRouter>
-    <Switch>
-      <Route exact path="/" render={(props) => <App {...props} />} />
-      <Route path="/MainPage" render={(props) => <MainPage {...props} />} />
-      <Route path="/AdminPage" render={(props) => <AdminPage {...props} />} />
-      <Redirect to="/" />
-    </Switch>
-  </HashRouter>,
-
-  document.getElementById("app")
+  <App/>,document.getElementById("app")
 );

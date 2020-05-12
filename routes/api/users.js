@@ -63,14 +63,22 @@ router.post("/login", (req, res)=>{
 
 router.post('/checkLogin', (req, res) => {
   var user = '';
-  var isLogined = false;
   var userType = 'guest';
   if (!(req.session.user == undefined)) {
     user = req.session.user;
-    isLogined = true;
     userType = req.session.userType
-    res.send("logined");
+    res.send({status: "logined", username: req.session.user});
   }
+  else res.send({status: "not logined"});
+});
+
+router.post('/logout', (req, res) => {
+  req.session.destroy(function (err) {
+    if (err) {
+      res.send("logout fail");
+    }
+    res.send("logout done");
+  });
 });
 
 
