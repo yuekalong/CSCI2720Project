@@ -1,31 +1,54 @@
 import React from 'react';
-import Navbar from "react-bootstrap/Navbar";
-import { Container, Row, Col } from 'reactstrap';
+import axios from 'axios';
+import {Alert, Navbar, Button, Nav } from "react-bootstrap";
+import { Container, Row, Col} from 'reactstrap';
 import SearchIcon from '@material-ui/icons/Search';
 
 import SearchBar from "./SearchBar.js";
+
+const port = "";
+
 class TopBar extends React.Component{
   constructor(props) {
     super(props);
     this.state={
       searchbar: false,
     };
+    this.logoutFun = this.logoutFun.bind(this);
+  }
+
+  logoutFun(e){
+    axios({
+      method: 'post',
+      url: port+'/api/users/logout'
+    }).
+    then((res)=>{
+      if(res.data == "logout done"){
+        window.location = "/#/";
+      }
+      else {
+        alert("Login Fail");
+      }
+    })
   }
 
   render(){
     return(
       <div>
-        {this.props.logined ? 
+        {this.props.logined ?
           <Navbar className="shadow" bg="light" expand="lg">
             <Navbar.Brand href="#/MainPage">FoodRoundCU</Navbar.Brand>
+            <Nav className="mr-auto">
+            </Nav>
             <SearchIcon />
             <SearchBar />
-            <button>Logout</button>
-          </Navbar> 
+            <Navbar.Text style={{"padding": "0 15px 0 15px"}}>{this.props.username}</Navbar.Text>
+            <Button onClick={this.logoutFun}>Logout</Button>
+          </Navbar>
           :
           <Navbar className="shadow" bg="light" expand="lg">
             <Navbar.Brand href="#">FoodRoundCU</Navbar.Brand>
-          </Navbar> 
+          </Navbar>
         }
       </div>
     );

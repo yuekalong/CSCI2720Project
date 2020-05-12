@@ -19,7 +19,7 @@ class LoginPage extends React.Component {
       url: port+'/api/users/checkLogin',
     })
     .then((res) => {
-      if(res.data == "logined"){
+      if(res.data.status == "logined"){
         window.location = "/#/MainPage";
       }
     });

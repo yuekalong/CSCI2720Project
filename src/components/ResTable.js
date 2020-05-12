@@ -21,7 +21,14 @@ class ResTable extends React.Component {
         this.setState({ data: res.data.data });
       }
     });
+    this.viewLoc = this.viewLoc.bind(this);
   }
+
+  viewLoc(e){
+    console.log(e.target.id);
+    window.location="/#/loc:"+e.target.id
+  }
+
   render() {
     const {data} = this.state;
     return (
@@ -33,6 +40,7 @@ class ResTable extends React.Component {
           {
             Header: "Photo",
             accessor: "photo",
+            sortable: false,
             filterable: false,
             Cell: (row) => {
               if(row.value == "") return <div><img height={50} src={imageNotFound}/></div>
@@ -68,10 +76,13 @@ class ResTable extends React.Component {
             }
           },
           {
-            Header: "Link",
+            Header: "Info",
+            accessor: "locationID",
+            sortable: false,
+            filterable: false,
             Cell: (row) => {
               return <div>
-                <Button as="input" type="button" value="See more" />
+                <Button id={row.value} style={{"width": "70%"}} as="input" type="button" variant="info" value="Info" onClick={this.viewLoc}/>
               </div>
             }
           }
