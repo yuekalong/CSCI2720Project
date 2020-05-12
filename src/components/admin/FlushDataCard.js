@@ -35,9 +35,9 @@ class ConfirmDialog extends React.Component {
         <Button
           variant="primary"
           onClick={this.handleShow}
-          style={{ width: "10em", height: "5em" }}
+          style={{ width: "100px", height: "100px", "border-radius": "100%" }}
         >
-          Reload
+          <span class="material-icons">refresh</span>
         </Button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>

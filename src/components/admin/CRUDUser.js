@@ -71,7 +71,7 @@ class CreateUser extends React.Component {
             float: "left",
           }}
         >
-          Create User +
+          Create User <span class="material-icons">add</span>
         </Button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
@@ -175,7 +175,7 @@ class EditUser extends React.Component {
           onClick={this.handleShow}
           style={{ float: "right", width: "5em", height: "7em" }}
         >
-          edit
+          <span class="material-icons">create</span>
         </Button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
@@ -255,7 +255,7 @@ class DeleteUser extends React.Component {
           onClick={this.handleShow}
           style={{ float: "right", width: "5em", height: "7em" }}
         >
-          delete
+          <span class="material-icons">delete</span>
         </Button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>

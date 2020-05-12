@@ -31,3 +31,7 @@ label {
   color: white;
   border-radius: 15px 15px 0px 0px;
 }
+
+.material-icons {
+  vertical-align: middle;
+}
