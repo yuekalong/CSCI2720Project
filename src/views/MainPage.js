@@ -20,6 +20,7 @@ class MainPage extends React.Component{
                 <div>
                     <TopBar>
                     </TopBar>
+                    <div style={{"padding-bottom": "56px"}}></div>
                     <ResTable>
                     </ResTable>
                     <GoogleMap>

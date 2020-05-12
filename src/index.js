@@ -15,25 +15,38 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import "./assets/scss/paper-kit.scss";
 // import "./assets/demo/demo.css";
 
+import PageNavbar from "./PageNavbar.js";
 import MainPage from "./views/MainPage.js";
 import AdminPage from "./views/AdminPage.js";
 import LoginPage from "./views/LoginPage.js";
 import Navbar from "react-bootstrap/Navbar";
 
-ReactDOM.render(
-  <React.Fragment>
-    <Navbar className="navBar shadow" bg="light" expand="lg">
-      <Navbar.Brand href="#">FoodRoundCU</Navbar.Brand>
-    </Navbar>
-    <HashRouter>
-      <Switch>
-        <Route exact path="/" render={(props) => <LoginPage {...props} />} />
-        <Route path="/MainPage" render={(props) => <MainPage {...props} />} />
-        <Route path="/AdminPage" render={(props) => <AdminPage {...props} />} />
-        <Redirect to="/" />
-      </Switch>
-    </HashRouter>
-  </React.Fragment>,
+class App extends React.Component{
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     navbarMode: "normal"
+  //   }
+  // }
+  //
+  // shouldComponentUpdate(nextProps, nextState)
 
-  document.getElementById("app")
+  render(){
+    return(
+      <React.Fragment>
+        <HashRouter>
+          <Switch>
+            <Route exact path="/" render={(props) => <LoginPage {...props} />} />
+            <Route path="/MainPage" render={(props) => <MainPage {...props} />} />
+            <Route path="/AdminPage" render={(props) => <AdminPage {...props} />} />
+            <Redirect to="/" />
+          </Switch>
+        </HashRouter>
+      </React.Fragment>
+    );
+  }
+}
+
+ReactDOM.render(
+  <App/>,document.getElementById("app")
 );

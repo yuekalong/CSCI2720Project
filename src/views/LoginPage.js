@@ -19,13 +19,18 @@ class LoginPage extends React.Component {
       url: port+'/api/users/checkLogin',
     })
     .then((res) => {
-      alert(res.data);
+      if(res.data == "logined"){
+        window.location = "/#/MainPage";
+      }
     });
   }
 
   render(){
     return(
     <React.Fragment>
+      <Navbar bg="light" expand="lg" className="shawdow navBar">
+        <Navbar.Brand href="#">FoodRoundCU</Navbar.Brand>
+      </Navbar>
       <LoginContainer />
     </React.Fragment>
   );
