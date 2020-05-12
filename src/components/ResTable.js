@@ -4,7 +4,7 @@ import imageNotFound from "../assets/img/imageNotFound.png";
 import { Card, Button, Modal, Table, Form } from "react-bootstrap";
 import matchSorter from "match-sorter";
 import Rating from '@material-ui/lab/Rating';
-
+import {GrFavorite} from 'react-icons/fa';
 // Import React Table
 import ReactTable from "react-table-v6";
 import "react-table-v6/react-table.css";
@@ -27,6 +27,14 @@ class ResTable extends React.Component {
   viewLoc(e){
     console.log(e.target.id);
     window.location="/#/loc/"+e.target.id
+  }
+
+  addFavLoc(e){
+    axios.post("/api/favoriteLists/addLocation", e.target.id).then((res) => {
+      console.log(res.data)
+    }).catch((error)=>{
+      console.log(error)
+    });
   }
 
   render() {
@@ -85,7 +93,7 @@ class ResTable extends React.Component {
                 <Button id={row.value} style={{"width": "70%"}} as="input" type="button" variant="info" value="Info" onClick={this.viewLoc}/>
               </div>
             }
-          }
+          },
         ]}
         defaultPageSize={10}
       />
