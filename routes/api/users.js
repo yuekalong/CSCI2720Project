@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 
 let User = require('../../model/user.model');
+let favList = require('../../model/favoriteList');
 
 router.post('/signup', (req, res) => {
   var data = req.body;

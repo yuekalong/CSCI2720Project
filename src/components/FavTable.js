@@ -1,60 +1,61 @@
 import React from 'react';
 import ObjectList from 'react-object-list';
-import SearchBar from "./SearchBar.js";
 import Axios from 'axios';
+
+import ReactTable from "react-table-v6";
+import "react-table-v6/react-table.css";
 
 class FavTable extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            favList:[],
+            data:[]
         };
-        this.componentDidMount = this.componentDidMount.bind (this);
-        this.getData = this.getData.bind (this);
-        this.displayFavList = this.displayFavList.bind (this);
-    }
+        /* 
+        Axios.get("/api/favoriteLists/getFav").then((res) => {
+            if (res.data.success) {
+              this.setState({ data: res.data.data });
+            }
+        }); 
+        */
 
-    componentDidMount = () =>{
-        this.getData();
-    }
+       Axios.get("/api/admins/readLocation").then((res) => {
+            if (res.data.success) {
+            this.setState({ data: res.data.data });
+            }
+        });
 
-    getData = () =>{
-        Axios.get('/api/favoriteLists/getFav')
-            .then((response) => {
-                const data = response.data;
-                this.setState({ favList:data });
-                console.log("got data");
-            })
-            .catch(() => {
-                alert("ERROR");
-            });
     }
+    render() {
+        const {data} = this.state;
 
-    displayFavList = (list) => {
-        if (!list.length) return null;
+        const columns = [{
+                Header: 'Name',
+                accessor: 'locationName', // String-based value accessors!
+                filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["locationName"] }),
+                filterAll: true
+            }, {
+                Header: 'Address',
+                accessor: 'address',
+                filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["address"] }),
+                filterAll: true,
+                id: "address"
+                //Cell: props => <span className='number'>{props.value}</span> // Custom cell components!
+            }]
+        
         return(
             <div>
-                <ObjectList
-                    columns={[
-                            {dataKey: 'name', header: 'Name'},
-                            {dataKey: 'location', header: 'Location'},
-                    ]}
-                    data={list}
-                    meta={{
-                        totalCount: list.length,
-                    }}
-                    favouritesEnabled={false}
+                <h3>Yout Favorite Location</h3>
+                <ReactTable
+                    data={data}
+                    columns={columns}
+                    defaultPageSize={10}
                 />
             </div>
         )
-    }
-
-    render(){
-        return(
-            <div>
-                {this.displayFavList(this.state.favList)}
-            </div>
-        );
+        
     }
 }
 
