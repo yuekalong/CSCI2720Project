@@ -4,7 +4,8 @@ const bodyParser = require("body-parser");
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 
-let User = require('../../model/user.model');
+let User = require('../../model/user');
+let FavList = require('../../model/favoriteList');
 
 router.post('/signup', (req, res) => {
   var data = req.body;
@@ -25,12 +26,24 @@ router.post('/signup', (req, res) => {
           username: data.username,
           password: data.password
         });
+
+        var favList = new FavList({
+          userID: maxId + 1
+        });
+
         user.save(function(err){
           if (err) {
             res.send("usernameUsed");
           }
           else {
-            res.send("signup done");
+            favList.save(function(err){
+              if (err) {
+                res.send("Favorite list error");
+              }
+              else {
+                res.send("signup done");
+              }
+            });
           }
         });
       }

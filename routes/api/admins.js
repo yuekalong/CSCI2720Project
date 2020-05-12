@@ -12,7 +12,7 @@ const csv = require("csvtojson");
 
 const Admin = require("../../model/admin");
 const Location = require("../../model/location");
-const User = require("../../model/user.model");
+const User = require("../../model/user");
 
 // yelp setting
 const yelp = require("yelp-fusion");
