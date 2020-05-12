@@ -5,6 +5,8 @@ import {Card, ListGroup, ListGroupItem} from "react-bootstrap";
 import { Container, Row, Col } from 'reactstrap';
 import Rating from '@material-ui/lab/Rating';
 import imageNotFound from "../assets/img/imageNotFound.png";
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import GoogleMap from "../components/GoogleMap";
 
 const port = "";
 class LocPage extends React.Component{
@@ -82,17 +84,20 @@ class LocPage extends React.Component{
                         <Card.Img variant="top" style={{ width: '100%', height: '300px', "object-fit": "cover"}} src={loc.photo} />
                         <Card.Body>
                             <Card.Title>{loc.locationName}</Card.Title>
-                            <ListGroup className="list-group-flush">
-                                <ListGroupItem>
-                                    <Rating name="rating"
-                                        value={parseInt(loc.rating)}
-                                        precision={0.5}
-                                        readOnly
-                                    />
-                                </ListGroupItem>
-                                <ListGroupItem>{loc.address}</ListGroupItem>
-                                <ListGroupItem>{loc.phoneNum}</ListGroupItem>
-                            </ListGroup>
+                        </Card.Body>
+                        <ListGroup className="list-group-flush">
+                            <ListGroupItem>
+                                <Rating name="rating"
+                                    value={parseInt(loc.rating)}
+                                    precision={0.5}
+                                    readOnly
+                                />
+                            </ListGroupItem>
+                            <ListGroupItem>Phone Number: {loc.phoneNum}</ListGroupItem>
+                        </ListGroup>
+                        <Card.Body style={{ height: '400px' }}>
+                            {loc.address}
+                            <GoogleMap />
                         </Card.Body>
                     </Card>
                 </Container>
