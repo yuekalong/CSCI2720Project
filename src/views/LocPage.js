@@ -1,7 +1,12 @@
 import React from "react";
 import axios from "axios";
 import TopBar from '../components/TopBar.js';
+import {Card, ListGroup, ListGroupItem} from "react-bootstrap";
 import { Container, Row, Col } from 'reactstrap';
+import Rating from '@material-ui/lab/Rating';
+import imageNotFound from "../assets/img/imageNotFound.png";
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import GoogleMap from "../components/GoogleMap";
 
 const port = "";
 class LocPage extends React.Component{
@@ -38,12 +43,29 @@ class LocPage extends React.Component{
         })
         .then((res) => {
             if(res.data.success){
-                this.setState({
-                    data: res.data.data
-                });
+                console.log(res.data.data);
+                if (res.data.data == null){
+                    this.setState({
+                        data: {
+                            locationName: "404 Not Found",
+                            photo: {imageNotFound},
+                            address: "",
+                            phoneNum: "",
+                            rating: "",
+                            latitude: "",
+                            longitude: ""
+                          }
+                    }); 
+                }
+                else {
+                    this.setState({
+                        data: res.data.data
+                    });  
+                }
             }
             else {
                 alert("ERROR");
+                window.location = "/#/";
             }
         });
     }
@@ -58,15 +80,26 @@ class LocPage extends React.Component{
                     </Col>
                 </Row>
                 <Container>
-                    <div>{loc.locationName}</div>
-                    <hr/>
-                    <img style={{"height": "50%"}} src={loc.photo}/>
-                    <hr/>
-                    <div>{loc.address}</div>
-                    <div>{loc.rating}</div>
-                    <div>{loc.phoneNum}</div>
-                    <div>{loc.latitude}</div>
-                    <div>{loc.longitude}</div>
+                    <Card style={{ width: '100%' }}>
+                        <Card.Img variant="top" style={{ width: '100%', height: '300px', "object-fit": "cover"}} src={loc.photo} />
+                        <Card.Body>
+                            <Card.Title>{loc.locationName}</Card.Title>
+                        </Card.Body>
+                        <ListGroup className="list-group-flush">
+                            <ListGroupItem>
+                                <Rating name="rating"
+                                    value={parseInt(loc.rating)}
+                                    precision={0.5}
+                                    readOnly
+                                />
+                            </ListGroupItem>
+                            <ListGroupItem>Phone Number: {loc.phoneNum}</ListGroupItem>
+                        </ListGroup>
+                        <Card.Body style={{ height: '400px' }}>
+                            {loc.address}
+                            <GoogleMap />
+                        </Card.Body>
+                    </Card>
                 </Container>
               </div>
           )
