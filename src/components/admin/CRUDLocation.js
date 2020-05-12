@@ -1,7 +1,14 @@
 import React from "react";
 import axios from "axios";
 
-import { Card, Button, Modal, Table, Form } from "react-bootstrap";
+import { Card, Button, Modal, Form } from "react-bootstrap";
+
+// Import React Table
+import ReactTable from "react-table-v6";
+import "react-table-v6/react-table.css";
+
+import Rating from "@material-ui/lab/Rating";
+import "../../assets/css/AdminPage.css";
 
 class CreateLocation extends React.Component {
   constructor(props) {
@@ -42,7 +49,6 @@ class CreateLocation extends React.Component {
 
   photoChange(e) {
     this.setState({ photo: e.target.value });
-    console.log(this.state);
   }
   nameChange(e) {
     this.setState({ locationName: e.target.value });
@@ -83,7 +89,6 @@ class CreateLocation extends React.Component {
         obj: JSON.stringify(newObj),
       })
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           alert("Success!");
           this.setState({
@@ -105,7 +110,16 @@ class CreateLocation extends React.Component {
   render() {
     return (
       <div>
-        <Button variant="warning" onClick={this.handleShow}>
+        <Button
+          variant="warning"
+          onClick={this.handleShow}
+          style={{
+            color: "white",
+            width: "12em",
+            height: "4em",
+            float: "left",
+          }}
+        >
           Create Location +
         </Button>
 
@@ -253,9 +267,7 @@ class EditLocation extends React.Component {
   }
 
   photoChange(e) {
-    console.log(e.target.value);
     this.setState({ photo: "e.target.value" });
-    console.log(this.state);
   }
   nameChange(e) {
     this.setState({ locationName: e.target.value });
@@ -297,7 +309,6 @@ class EditLocation extends React.Component {
         obj: JSON.stringify(updateObj),
       })
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           alert("Success!");
           this.setState({
@@ -320,7 +331,12 @@ class EditLocation extends React.Component {
   render() {
     return (
       <div>
-        <Button variant="outline-dark" size="sm" onClick={this.handleShow}>
+        <Button
+          variant="outline-dark"
+          size="sm"
+          onClick={this.handleShow}
+          style={{ float: "right", width: "5em", height: "7em" }}
+        >
           edit
         </Button>
 
@@ -439,7 +455,6 @@ class DeleteLocation extends React.Component {
     axios
       .delete(`/api/admins/deleteLocation/${this.state.location.locationID}`)
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           alert("Success!");
           this.setState({ show: false });
@@ -451,7 +466,12 @@ class DeleteLocation extends React.Component {
   render() {
     return (
       <div>
-        <Button variant="outline-danger" size="sm" onClick={this.handleShow}>
+        <Button
+          variant="outline-danger"
+          size="sm"
+          onClick={this.handleShow}
+          style={{ float: "right", width: "5em", height: "7em" }}
+        >
           delete
         </Button>
 
@@ -480,19 +500,53 @@ class DeleteLocation extends React.Component {
 class UploadCSV extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      filename: "Choose File",
+      notSelected: true,
+    };
     this.upload = this.upload.bind(this);
+    this.selectedFile = this.selectedFile.bind(this);
+  }
+  selectedFile(e) {
+    this.setState({
+      filename: document.getElementById("file").value,
+      notSelected: false,
+    });
   }
   upload() {
     const formData = new FormData();
     const csvfile = document.getElementById("file");
     formData.append("csvfile", csvfile.files[0]);
-    axios.post("/api/admins/readCSV", formData);
+    axios.post("/api/admins/readCSV", formData).then((res) => {
+      if (res.data.success) {
+        alert("success!");
+        this.props.refresh(null);
+        this.setState({ filename: "Choose File", notSelected: true });
+      }
+    });
   }
   render() {
     return (
       <div>
-        <Form.File.Input id="file" accept="text/csv" />
-        <Button onClick={this.upload}>Upload CSV</Button>
+        <Form style={{ height: "6em", "padding-right": "2em", float: "right" }}>
+          <Form.File
+            id="file"
+            label={this.state.filename}
+            accept="text/csv"
+            custom
+            onChange={this.selectedFile}
+            style={{ width: "15em", float: "right" }}
+          />
+          <br />
+          <br />
+          <Button
+            disabled={this.state.notSelected}
+            onClick={this.upload}
+            style={{ width: "15em", height: "4em", float: "right" }}
+          >
+            Upload CSV
+          </Button>
+        </Form>
       </div>
     );
   }
@@ -524,59 +578,98 @@ class CRUDLocation extends React.Component {
   render() {
     return (
       <div>
-        <Card>
-          <Card.Title>Location</Card.Title>
-          <Card.Text>
+        <Card className="adminComponent">
+          <Card.Title className="cardTitle">Location</Card.Title>
+          <Card.Text
+            className="cardText"
+            style={{ width: "100%", "text-align": "center" }}
+          >
             <CreateLocation refresh={this.refresh} />
             <UploadCSV refresh={this.refresh} />
           </Card.Text>
-          <Card.Body>
-            <Table striped hover responsive>
-              <thead>
-                <tr>
-                  <th>Photo</th>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th>Latitude</th>
-                  <th>Longitude</th>
-                  <th>Phone Number</th>
-                  <th>Rating</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.location.map((loc, i) => (
-                  <tr key={i}>
-                    <img src={loc.photo} width="75px" height="75px"></img>
-                    <td>{loc.locationName}</td>
-                    <td>
-                      {loc.address[0] +
-                        (loc.address[1] == null ? "" : loc.address[1]) +
-                        (loc.address[2] == null ? "" : loc.address[2])}
-                    </td>
-                    <td>{loc.latitude}</td>
-                    <td>{loc.longitude}</td>
-                    <td>{loc.phoneNum}</td>
-                    <td>{loc.rating}</td>
-                    <td>
-                      <EditLocation
-                        onClick={() => {
-                          return loc;
-                        }}
-                        refresh={this.refresh}
+          <Card.Body className="cardText">
+            <ReactTable
+              className="adminTable"
+              data={this.state.location}
+              filterable
+              columns={[
+                {
+                  Header: "Photo",
+                  accessor: "photo",
+                  sortable: false,
+                  filterable: false,
+                  Cell: (row) => {
+                    if (row.value == "")
+                      return (
+                        <div>
+                          <img height={50} src="" />
+                        </div>
+                      );
+                    return (
+                      <div style={{ "text-align": "center" }}>
+                        <img height={"100px"} src={row.value} />
+                      </div>
+                    );
+                  },
+                },
+                {
+                  Header: "Name",
+                  accessor: "locationName",
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["locationName"] }),
+                  filterAll: true,
+                },
+                {
+                  Header: "Address",
+                  accessor: "address",
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["address"] }),
+                  filterAll: true,
+                  id: "address",
+                },
+                {
+                  Header: "Rating",
+                  accessor: "rating",
+                  id: "rating",
+                  Cell: (row) => {
+                    return (
+                      <Rating
+                        name="hover-feedback"
+                        value={row.value}
+                        precision={0.5}
+                        readOnly
                       />
-                      <br />
-                      <DeleteLocation
-                        onClick={() => {
-                          return loc;
-                        }}
-                        refresh={this.refresh}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+                    );
+                  },
+                },
+                {
+                  Header: "",
+                  accessor: "",
+                  id: "",
+                  sortable: false,
+                  filterable: false,
+                  Cell: (row) => {
+                    return (
+                      <div>
+                        <DeleteLocation
+                          onClick={() => {
+                            return row.value;
+                          }}
+                          refresh={this.refresh}
+                        />
+                        <EditLocation
+                          onClick={() => {
+                            return row.value;
+                          }}
+                          refresh={this.refresh}
+                        />
+                      </div>
+                    );
+                  },
+                },
+              ]}
+              defaultPageSize={10}
+            />
           </Card.Body>
         </Card>
       </div>

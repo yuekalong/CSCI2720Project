@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 
 import { Card, Button, Modal } from "react-bootstrap";
+import "../../assets/css/AdminPage.css";
 
 class ConfirmDialog extends React.Component {
   constructor(props) {
@@ -31,7 +32,11 @@ class ConfirmDialog extends React.Component {
   render() {
     return (
       <div>
-        <Button variant="primary" onClick={this.handleShow}>
+        <Button
+          variant="primary"
+          onClick={this.handleShow}
+          style={{ width: "10em", height: "5em" }}
+        >
           Reload
         </Button>
 
@@ -65,12 +70,18 @@ class FlushDataCard extends React.Component {
   render() {
     return (
       <div>
-        <Card style={{ width: "100%" }}>
-          <Card.Title>Flush Data</Card.Title>
-          <Card.Text>
+        <Card className="adminComponent">
+          <Card.Title className="cardTitle">Flush Data</Card.Title>
+          <Card.Text className="cardText">
             To reload all the data in database from the online dataset
           </Card.Text>
-          <ConfirmDialog />
+          <div
+            style={{
+              "text-align": "center",
+            }}
+          >
+            <ConfirmDialog />
+          </div>
         </Card>
       </div>
     );

@@ -1,7 +1,12 @@
 import React from "react";
 import axios from "axios";
 
-import { Card, Button, Modal, Table, Form } from "react-bootstrap";
+import { Card, Button, Modal, Form } from "react-bootstrap";
+import "../../assets/css/AdminPage.css";
+
+// Import React Table
+import ReactTable from "react-table-v6";
+import "react-table-v6/react-table.css";
 
 class CreateUser extends React.Component {
   constructor(props) {
@@ -56,7 +61,16 @@ class CreateUser extends React.Component {
   render() {
     return (
       <div>
-        <Button variant="warning" onClick={this.handleShow}>
+        <Button
+          variant="warning"
+          onClick={this.handleShow}
+          style={{
+            color: "white",
+            width: "12em",
+            height: "4em",
+            float: "left",
+          }}
+        >
           Create User +
         </Button>
 
@@ -155,7 +169,12 @@ class EditUser extends React.Component {
   render() {
     return (
       <div>
-        <Button variant="outline-dark" size="sm" onClick={this.handleShow}>
+        <Button
+          variant="outline-dark"
+          size="sm"
+          onClick={this.handleShow}
+          style={{ float: "right", width: "5em", height: "7em" }}
+        >
           edit
         </Button>
 
@@ -230,7 +249,12 @@ class DeleteUser extends React.Component {
   render() {
     return (
       <div>
-        <Button variant="outline-danger" size="sm" onClick={this.handleShow}>
+        <Button
+          variant="outline-danger"
+          size="sm"
+          onClick={this.handleShow}
+          style={{ float: "right", width: "5em", height: "7em" }}
+        >
           delete
         </Button>
 
@@ -283,44 +307,64 @@ class CRUDUser extends React.Component {
   render() {
     return (
       <div>
-        <Card style={{ width: "100%" }}>
-          <Card.Title>User</Card.Title>
-          <CreateUser refresh={this.refresh} />
-          <Card.Body>
-            <Table striped hover responsive>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Username</th>
-                  <th>Password</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.user.map((user, i) => (
-                  <tr key={i}>
-                    <td>{user.userID}</td>
-                    <td>{user.username}</td>
-                    <td>********(hashed password)</td>
-                    <td>
-                      <EditUser
-                        onClick={() => {
-                          return user;
-                        }}
-                        refresh={this.refresh}
-                      />
-                      <br />
-                      <DeleteUser
-                        onClick={() => {
-                          return user;
-                        }}
-                        refresh={this.refresh}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+        <Card className="adminComponent">
+          <Card.Title className="cardTitle">User</Card.Title>
+          <Card.Text className="cardText">
+            <CreateUser refresh={this.refresh} />
+          </Card.Text>
+          <Card.Body className="cardText">
+            <ReactTable
+              className="adminTable"
+              data={this.state.user}
+              filterable
+              columns={[
+                {
+                  Header: "ID",
+                  accessor: "userID",
+                  filterable: false,
+                },
+                {
+                  Header: "Username",
+                  accessor: "username",
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["locationName"] }),
+                  filterAll: true,
+                },
+                {
+                  Header: "Password",
+                  accessor: "password",
+                  filterable: false,
+                  Cell: (row) => {
+                    return <span> ******** (hashed)</span>;
+                  },
+                },
+                {
+                  Header: "",
+                  accessor: "",
+                  sortable: false,
+                  filterable: false,
+                  Cell: (row) => {
+                    return (
+                      <div>
+                        <DeleteUser
+                          onClick={() => {
+                            return row.value;
+                          }}
+                          refresh={this.refresh}
+                        />
+                        <EditUser
+                          onClick={() => {
+                            return row.value;
+                          }}
+                          refresh={this.refresh}
+                        />
+                      </div>
+                    );
+                  },
+                },
+              ]}
+              defaultPageSize={5}
+            ></ReactTable>
           </Card.Body>
         </Card>
       </div>

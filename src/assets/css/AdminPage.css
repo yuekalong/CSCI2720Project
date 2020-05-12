@@ -1,0 +1,33 @@
+.adminComponent {
+  border-radius: 25px;
+  background-color: white;
+  box-shadow: 0.2rem 0.5rem 1rem rgba(0, 0, 0, 0.2) !important;
+}
+
+.cardTitle {
+  padding-left: 0.5em;
+  padding-top: 0.5em;
+  font-size: 2em;
+  color: grey;
+}
+
+.cardText {
+  padding-left: 2em;
+  font-size: 1.2em;
+  color: #545454;
+}
+
+label {
+  text-align: left;
+}
+
+.adminTable {
+  border-radius: 15px;
+}
+
+.-header {
+  height: 2em;
+  background-color: #46b482;
+  color: white;
+  border-radius: 15px 15px 0px 0px;
+}
