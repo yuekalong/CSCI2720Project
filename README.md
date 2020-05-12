@@ -29,8 +29,15 @@ entry: [
 
 change:
 ```
-const post = "[your port]"
+const post = "/[your port]"
 ```
+
 ## Components with ajax
-1. LoginContainer
-2. App.js
+1. LoginContainer.js
+2. LoginPage.js
+3. TopBar.js
+4. ResTable.js
+5. FlushDataCard.js
+6. CRUDUser.js
+7. CRUDLocation.js
+8. MainPage.js
