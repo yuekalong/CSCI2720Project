@@ -19,6 +19,7 @@ class LocPage extends React.Component{
             username: "",
             data: {},
             notFav: true,
+            map: true
         };
         this.addtofavorite = this.addtofavorite.bind(this);
         this.delFav = this.delFav.bind(this);
@@ -57,7 +58,8 @@ class LocPage extends React.Component{
                             rating: "",
                             latitude: "",
                             longitude: ""
-                          }
+                          },
+                        map: false
                     }); 
                 }
                 else {
@@ -114,7 +116,7 @@ class LocPage extends React.Component{
                     }
                     <Card.Body style={{ height: '400px' }}>
                         {loc.address}
-                        <GoogleMap showOne={true} oneLat={loc.latitude} oneLog={loc.longitude}/>
+                        {this.props.map && <GoogleMap showOne={true} oneLat={loc.latitude} oneLog={loc.longitude}/>}
                     </Card.Body>
                 </Card>
                 <CommentsContainer locID={this.state.locID}/>

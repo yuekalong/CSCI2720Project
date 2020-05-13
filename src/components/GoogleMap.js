@@ -1,6 +1,7 @@
 import React from 'react';
 import { Map, Marker, GoogleApiWrapper, InfoWindow} from 'google-maps-react';
 import axios from 'axios';
+
 class GoogleMap extends React.Component{
     constructor(props){
         super(props);
