@@ -1,18 +1,18 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser");
-const bcrypt = require('bcrypt');
-const mongoose = require('mongoose');
+const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
 
 let User = require('../../model/user');
 let FavList = require('../../model/favoriteList');
 
-router.post('/signup', (req, res) => {
+router.post("/signup", (req, res) => {
   var data = req.body;
   console.log(data);
   const saltRounds = 10;
   // hash the password
-  bcrypt.hash(data.password, saltRounds).then(hash => {
+  bcrypt.hash(data.password, saltRounds).then((hash) => {
     data.password = hash;
     User.find({}, 'userID').sort({userID: -1}).limit(1).exec(function(err, maxIdUser) {
       if (err) res.send(err);
@@ -51,12 +51,12 @@ router.post('/signup', (req, res) => {
   });
 });
 
-router.post("/login", (req, res)=>{
+router.post("/login", (req, res) => {
   var data = req.body;
   console.log(req.body);
   User.findOne({ username: data.username }, (err, user) => {
     if (user == null) res.send("Username Not Found");
-    else{
+    else {
       bcrypt.compare(data.password, user.password, (err, result) => {
         if (result == true) {
           req.session.regenerate(function (err) {
@@ -68,8 +68,7 @@ router.post("/login", (req, res)=>{
               res.send("Login Success");
             }
           });
-        }
-        else res.send("Password Not Correct");
+        } else res.send("Password Not Correct");
       });
     }
   });
@@ -94,8 +93,5 @@ router.post('/logout', (req, res) => {
     res.send("logout done");
   });
 });
-
-
-
 
 module.exports = router;
