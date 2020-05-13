@@ -24,7 +24,11 @@ label {
 .adminTable {
   border-radius: 15px;
 }
-
+.ReactTable .rt-td {
+  overflow: auto !important;
+  white-space: normal !important;
+  text-overflow: "" !important;
+}
 .-header {
   height: 2em;
   background-color: #46b482;
