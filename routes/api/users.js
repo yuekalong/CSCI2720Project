@@ -1,49 +1,51 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser");
-const bcrypt = require('bcrypt');
-const mongoose = require('mongoose');
+const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
 
-let User = require('../../model/user.model');
+let User = require("../../model/user");
 
-router.post('/signup', (req, res) => {
+router.post("/signup", (req, res) => {
   var data = req.body;
   console.log(data);
   const saltRounds = 10;
   // hash the password
-  bcrypt.hash(data.password, saltRounds).then(hash => {
+  bcrypt.hash(data.password, saltRounds).then((hash) => {
     data.password = hash;
-    User.find({}, 'userID').sort({userID: -1}).limit(1).exec(function(err, maxIdUser) {
-      if (err) res.send(err);
-      else{
-        var maxId = 0;
-        if (maxIdUser.length == 1) {
-          maxId = maxIdUser[0].userID;
+    User.find({}, "userID")
+      .sort({ userID: -1 })
+      .limit(1)
+      .exec(function (err, maxIdUser) {
+        if (err) res.send(err);
+        else {
+          var maxId = 0;
+          if (maxIdUser.length == 1) {
+            maxId = maxIdUser[0].userID;
+          }
+          var user = new User({
+            userID: maxId + 1,
+            username: data.username,
+            password: data.password,
+          });
+          user.save(function (err) {
+            if (err) {
+              res.send("usernameUsed");
+            } else {
+              res.send("signup done");
+            }
+          });
         }
-        var user = new User({
-          userID: maxId + 1,
-          username: data.username,
-          password: data.password
-        });
-        user.save(function(err){
-          if (err) {
-            res.send("usernameUsed");
-          }
-          else {
-            res.send("signup done");
-          }
-        });
-      }
-    });
+      });
   });
 });
 
-router.post("/login", (req, res)=>{
+router.post("/login", (req, res) => {
   var data = req.body;
   console.log(req.body);
   User.findOne({ username: data.username }, { password: 1 }, (err, user) => {
     if (user == null) res.send("Username Not Found");
-    else{
+    else {
       bcrypt.compare(data.password, user.password, (err, result) => {
         if (result == true) {
           req.session.regenerate(function (err) {
@@ -54,29 +56,24 @@ router.post("/login", (req, res)=>{
               res.send("Login Success");
             }
           });
-        }
-        else res.send("Password Not Correct");
+        } else res.send("Password Not Correct");
       });
     }
   });
 });
 
-router.post('/checkLogin', (req, res) => {
-  var user = '';
+router.post("/checkLogin", (req, res) => {
+  var user = "";
   var isLogined = false;
-  var userType = 'guest';
+  var userType = "guest";
   if (!(req.session.user == undefined)) {
     user = req.session.user;
     isLogined = true;
-    userType = req.session.userType
+    userType = req.session.userType;
     res.send("logined");
-  }
-  else {
+  } else {
     res.send("not logined");
   }
 });
-
-
-
 
 module.exports = router;

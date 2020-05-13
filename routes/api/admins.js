@@ -10,9 +10,10 @@ const multer = require("multer");
 const upload = multer(multer.memoryStorage());
 const csv = require("csvtojson");
 
-const Admin = require("../../model/admin");
 const Location = require("../../model/location");
-const User = require("../../model/user.model");
+const User = require("../../model/user");
+const Comments = require("../../model/comment");
+const Favourites = require("../../model/favoriteList");
 
 // yelp setting
 const yelp = require("yelp-fusion");
@@ -306,5 +307,73 @@ router.post("/readCSV", upload.single("csvfile"), async (req, res) => {
 });
 // 5. Log out as admin
 // should be handle in front-end because only login through link
+
+// project-plus
+// top 5 active users with comments
+router.get("/activeUserWithComments", async (req, res) => {
+  let result = await Comments.aggregate([
+    {
+      $lookup: {
+        as: "user",
+        from: "users",
+        localField: "author",
+        foreignField: "_id",
+      },
+    },
+    {
+      $group: {
+        _id: "$user",
+        count: { $sum: 1 },
+      },
+    },
+  ])
+    .sort({ count: -1 })
+    .limit(5)
+    .exec();
+
+  // result = result.map(
+  //   (data) =>
+  //     (data = {
+  //       userID: data._id[0].userID,
+  //       username: data._id[0].username,
+  //       count: data.count,
+  //     })
+  // );
+  res.send({ success: true, data: result });
+});
+
+//top 5 active users with favourites
+router.get("/activeUserWithFavourites", async (req, res) => {
+  let result = await Favourites.aggregate([
+    {
+      $lookup: {
+        as: "user",
+        from: "users",
+        localField: "userID",
+        foreignField: "userID",
+      },
+    },
+    {
+      $project: {
+        _id: "$_id",
+        user: "$user",
+        favouritesCount: { $size: "$favorite" },
+      },
+    },
+  ])
+    .sort({ favouritesCount: -1 })
+    .limit(5)
+    .exec();
+
+  result = result.map(
+    (data) =>
+      (data = {
+        userID: data.user[0].userID,
+        username: data.user[0].username,
+        count: data.favouritesCount,
+      })
+  );
+  res.send({ success: true, data: result });
+});
 
 module.exports = router;
