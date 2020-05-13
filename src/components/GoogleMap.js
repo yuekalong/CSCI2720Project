@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, Marker, GoogleApiWrapper, InfoWindow } from 'google-maps-react';
 
 import axios from 'axios';
 
@@ -9,6 +9,8 @@ class GoogleMap extends React.Component{
         this.state={
             data:[],
             Home: {},
+            showingInfoWindow: false,
+            activeMarker: {},
         };
         axios.get("/api/admins/readLocation").then((res) => {
             if (res.data.success) {
@@ -17,23 +19,62 @@ class GoogleMap extends React.Component{
         });
     }
 
+    onMarkerClick = (locaid) =>{
+        window.location="/#/loc/"+locaid
+    }
+
+    onMouseoverMarker(props, marker, e){
+        this.setState({
+            activeMarker: marker,
+            showingInfoWindow: true
+        });
+    }
+    
+    onMouseoutMarker(){
+        this.setState({
+            activeMarker: null,
+            showingInfoWindow: false
+        });
+    }
+
+    onMapClicked = (ref, map, e) => {
+        const location = e.latLng;
+        if (this.state.showingInfoWindow) {
+          this.setState({
+            showingInfoWindow: false,
+            activeMarker: null
+          })
+        }
+        else{
+            console.log(location)
+        }
+      };
+
     render(){
         const style = {
             width: 'auto',
             height: 'auto',
             margin: '2px',
-        } //not responsive at all.
-        const {data} = this.state;
-
+        }
         const markers = 
         this.state.data.map(location => 
             <Marker
                 key={ location.locationID }
-                onClick = { this.onMarkerClick }
+                onClick = { this.onMarkerClick(location.locationID) }
+                onMouseover={this.onMouseoverMarker.bind(this)}
+                onMouseout={this.onMouseoutMarker.bind(this)}
                 title = { location.locationName }
                 name = { location.locationName }
                 position = {{lat: location.latitude, lng: location.longitude}}
-            />
+            >
+                <InfoWindow
+                    marker={this.state.activeMarker}
+                    visible={this.state.showingInfoWindow}>
+                    <div>
+                        <p>{location.locationName}</p>
+                    </div>
+                </InfoWindow>
+            </Marker>
         );
 
         return(
@@ -54,10 +95,11 @@ class GoogleMap extends React.Component{
                     :
                     <Map 
                         google={this.props.google} 
+                        onClick={this.onMapClicked}
                         zoom={15}
                         initialCenter={{
-                            lat: 22,
-                            lng: 114
+                            lat: 22.419618,
+                            lng: 114.206759
                         }}
                         style={style}
                     >
