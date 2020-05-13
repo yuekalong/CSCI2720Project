@@ -5,7 +5,7 @@ import { Container, Row, Col } from 'reactstrap';
 import TopBar from '../components/TopBar.js';
 import ResTable from '../components/ResTable.js';
 import GoogleMap from '../components/GoogleMap.js';
-// import FavTable from '../components/FavTable.js';
+import FavTable from '../components/FavTable.js';
 //
 // import IndexHeader from "../components/Headers/IndexHeader.js";
 
@@ -53,7 +53,9 @@ class MainPage extends React.Component{
                     <Row>
                         <Col>
                             <GoogleMap />
-                            {/* <FavTable /> */}
+                        </Col>
+                        <Col>
+                            <FavTable />
                         </Col>
                     </Row>
                 </Container>
