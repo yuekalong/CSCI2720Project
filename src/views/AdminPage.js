@@ -14,7 +14,7 @@ class AdminPage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ "background-color": "#34638a" }}>
         <Navbar
           className="shadow justify-content-between"
           bg="light"
