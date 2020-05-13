@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-import { Card, Button, Modal, Form } from "react-bootstrap";
+import { Card, Button, Modal, Form, Table } from "react-bootstrap";
 
 // Import React Table
 import ReactTable from "react-table-v6";
@@ -584,6 +584,41 @@ class CRUDLocation extends React.Component {
             className="cardText"
             style={{ width: "100%", "text-align": "center" }}
           >
+            <div
+              style={{
+                "padding-right": "2em",
+              }}
+            >
+              <span style={{ float: "left" }}>CSV format should be:</span>
+              <Table>
+                <thead>
+                  <tr>
+                    <td>photo</td>
+                    <td>locationName</td>
+                    <td>address1</td>
+                    <td>address2</td>
+                    <td>address3</td>
+                    <td>latitude</td>
+                    <td>longitude</td>
+                    <td>phoneNum</td>
+                    <td>rating</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>String</td>
+                    <td>String</td>
+                    <td>String</td>
+                    <td>String</td>
+                    <td>String</td>
+                    <td>Double</td>
+                    <td>Double</td>
+                    <td>Number (with country code [852])</td>
+                    <td>Number (between 1 - 5)</td>
+                  </tr>
+                </tbody>
+              </Table>
+            </div>
             <CreateLocation refresh={this.refresh} />
             <UploadCSV refresh={this.refresh} />
           </Card.Text>
@@ -626,6 +661,30 @@ class CRUDLocation extends React.Component {
                     matchSorter(rows, filter.value, { keys: ["address"] }),
                   filterAll: true,
                   id: "address",
+                },
+                {
+                  Header: "Latitude",
+                  accessor: "latitude",
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["latitude"] }),
+                  filterAll: true,
+                  id: "latitude",
+                },
+                {
+                  Header: "Longitude",
+                  accessor: "longitude",
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["longitude"] }),
+                  filterAll: true,
+                  id: "longitude",
+                },
+                {
+                  Header: "Phone Number",
+                  accessor: "phoneNum",
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["phoneNum"] }),
+                  filterAll: true,
+                  id: "phoneNum",
                 },
                 {
                   Header: "Rating",
