@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import {Form, Button, Card} from "react-bootstrap";
+import {Alert, Form, Button, Card} from "react-bootstrap";
 import CommentBox from "./CommentBox";
 
 const port = "";
@@ -92,9 +92,15 @@ class CommentsContainer extends React.Component {
                 <Card style={{ width: '100%' }}>
                     <Card.Body>
                         <Card.Title>Comments: </Card.Title>
-                        <div style={{ height: "300px", overflow: "scroll"}}>
-                            {this.state.comments.map(comment => <CommentBox replied={this.refresh} locID={this.state.locID} detail={comment}/>)}
-                        </div>
+                        {this.state.comments.length == 0 ?
+                            <Alert variant='light' style={{"text-align": "center", "font-size": "30px"}}>
+                                No any comments
+                            </Alert>
+                        :
+                            <div style={{ height: "300px", overflow: "scroll"}}>
+                                {this.state.comments.map(comment => <CommentBox replied={this.refresh} locID={this.state.locID} detail={comment}/>)}
+                            </div>
+                        }
                     </Card.Body>
                     <Card.Body>
                         <Form onSubmit={this.postComment} ref={ form => this.commentForm = form }>

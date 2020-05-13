@@ -1,18 +1,7 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import axios from "axios";
-
-import Jumbotron from "react-bootstrap/Jumbotron";
-import Toast from "react-bootstrap/Toast";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Form from "react-bootstrap/Form";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import FormControl from "react-bootstrap/FormControl";
-import Tabs from "react-bootstrap/Tabs";
-import Tab from "react-bootstrap/Tab";
-import Alert from "react-bootstrap/Alert";
+import {Button, Form, Tabs, Tab, Alert} from "react-bootstrap";
 
 import "../assets/css/LoginContainer.css";
 
@@ -21,29 +10,15 @@ const port = "";
 class LoginContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {username: '', password: '', usernameSignup: '', passwordSignup: ''};
+    this.state = {
+      usernameNotFoundWarning: false,
+      pwdNotCorrectWarning: false,
+      sigupSuccess: false,
+      usernameUsed: false
+    }
 
-    this.nameInputLogin = this.nameInputLogin.bind(this);
-    this.passwordInputLogin = this.passwordInputLogin.bind(this);
     this.loginSubmit = this.loginSubmit.bind(this);
-
-    this.usernameNotFoundWarning = false;
-    this.pwdNotCorrectWarning = false;
-
-    this.nameInputSignup = this.nameInputSignup.bind(this);
-    this.passwordInputSignup = this.passwordInputSignup.bind(this);
     this.SignupSubmit = this.SignupSubmit.bind(this);
-
-    this.sigupSuccess = false;
-    this.usernameUsed = false;
-  }
-
-  nameInputLogin(e) {
-    this.setState({username: e.target.value});
-  }
-
-  passwordInputLogin(e) {
-    this.setState({password: e.target.value});
   }
 
   loginSubmit(e) {
@@ -51,8 +26,8 @@ class LoginContainer extends React.Component {
       method: 'post',
       url: port+'/api/users/login',
       data: {
-        username: this.state.username,
-        password: this.state.password
+        username: ReactDOM.findDOMNode(this.username).value,
+        password: ReactDOM.findDOMNode(this.password).value
       }
     })
     .then((res) => {
@@ -74,21 +49,13 @@ class LoginContainer extends React.Component {
     e.preventDefault();
   }
 
-  nameInputSignup(e) {
-    this.setState({usernameSignup: e.target.value});
-  }
-
-  passwordInputSignup(e) {
-    this.setState({passwordSignup: e.target.value});
-  }
-
   SignupSubmit(e) {
     axios({
       method: 'post',
       url: port+'/api/users/signup',
       data: {
-        username: this.state.usernameSignup,
-        password: this.state.passwordSignup
+        username: ReactDOM.findDOMNode(this.usernameSignup).value,
+        password: ReactDOM.findDOMNode(this.passwordSignup).value
       }
     })
     .then(res=> {
@@ -116,11 +83,17 @@ class LoginContainer extends React.Component {
           <Form onSubmit={this.loginSubmit}>
             <Form.Group>
               <Form.Label>Username</Form.Label>
-              <Form.Control type="text" placeholder="Enter Username" onChange={this.nameInputLogin}/>
+              <Form.Control type="text" minLength={4} maxLength={20} placeholder="Enter Username" ref={ ref => this.username = ref }/>
+              <Form.Text className="text-muted">
+                The username must be a string of 4–20 characters.
+              </Form.Text>
             </Form.Group>
             <Form.Group>
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" onChange={this.passwordInputLogin}/>
+              <Form.Control type="password" minLength={4} maxLength={20} placeholder="Password" ref={ ref => this.password = ref }/>
+              <Form.Text className="text-muted">
+                The password must be a string of 4–20 characters.
+              </Form.Text>
             </Form.Group>
             <Button variant="primary" type="submit">
               Submit
@@ -134,11 +107,17 @@ class LoginContainer extends React.Component {
           <Form onSubmit={this.SignupSubmit}>
             <Form.Group>
               <Form.Label>Username</Form.Label>
-              <Form.Control type="text" placeholder="Set username" onChange={this.nameInputSignup}/>
+              <Form.Control type="text" minLength={4} maxLength={20} placeholder="Set username" ref={ ref => this.usernameSignup = ref }/>
+              <Form.Text className="text-muted">
+                The username must be a string of 4–20 characters.
+              </Form.Text>
             </Form.Group>
             <Form.Group>
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Set password" onChange={this.passwordInputSignup}/>
+              <Form.Control type="password" minLength={4} maxLength={20} placeholder="Set password" ref={ ref => this.passwordSignup = ref }/>
+              <Form.Text className="text-muted">
+                The password must be a string of 4–20 characters.
+              </Form.Text>
             </Form.Group>
             <Button variant="primary" type="submit">
               Submit
