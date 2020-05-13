@@ -7,21 +7,21 @@ import Rating from '@material-ui/lab/Rating';
 import imageNotFound from "../assets/img/imageNotFound.png";
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import GoogleMap from "../components/GoogleMap";
+import CommentsContainer from "../components/CommentsContainer";
 
 const port = "";
 class LocPage extends React.Component{
     constructor(props){
         super(props);
         this.state={
-          username: "",
-          data: {},
-          map: true
+            locID: window.location.href.substring((window.location.href.indexOf("loc")+4)),
+            username: "",
+            data: {},
+            map: true
         };
     }
 
     componentDidMount() {
-        var url = window.location.href;
-        var locID = url.substring((url.indexOf("loc")+4));
         axios({
             method: 'post',
             url: port+'/api/users/checkLogin',
@@ -39,12 +39,11 @@ class LocPage extends React.Component{
 
         axios({
             method: 'post',
-            url: port+'/api/locations/loc/'+locID,
-            data: {locID: locID}
+            url: port+'/api/locations/loc/'+this.state.locID,
+            data: {locID: this.state.locID}
         })
         .then((res) => {
             if(res.data.success){
-                console.log(res.data.data);
                 if (res.data.data == null){
                     this.setState({
                         data: {
@@ -102,6 +101,7 @@ class LocPage extends React.Component{
                             {this.props.map &&<GoogleMap oneloc={true} lat={loc.latitude} lng={loc.longitude}/>}
                         </Card.Body>
                     </Card>
+                    <CommentsContainer locID={this.state.locID}/>
                 </Container>
               </div>
           )
