@@ -43,14 +43,17 @@
     "webpack-hot-middleware": "^2.25.0"
   },
   "dependencies": {
-    "@material-ui/core": "^4.9.13",
+    "@material-ui/core": "^4.9.14",
+    "@material-ui/lab": "^4.0.0-alpha.53",
     "@material-ui/icons": "^4.9.1",
+    "apexcharts": "^3.19.0",
     "babel-loader": "^7.1.5",
     "bcrypt": "^4.0.1",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
     "csvtojson": "^2.0.10",
     "google-maps-react": "^2.0.6",
+    "material-ui": "^0.20.2",
     "moment": "^2.24.0",
     "mongodb": "^3.5.7",
     "mongoose": "^5.9.13",
@@ -68,6 +71,7 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.4.1",
     "react-select": "^3.1.0",
+    "react-table-v6": "^6.8.6",
     "reactstrap": "^8.0.0",
     "webpack-cli": "^3.3.11",
     "yelp-fusion": "^3.0.0"

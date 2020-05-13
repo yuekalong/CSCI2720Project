@@ -12,9 +12,9 @@ var CommentSchema = new Schema({
   commentID: String,
   locationID: String,
   parent_id: String,
-  posted: {type: Date, default: Date.now},
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  text: String
+  posted: { type: Date, default: Date.now },
+  author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  text: String,
 });
 
 module.exports = mongoose.model("Comment", CommentSchema);
