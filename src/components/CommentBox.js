@@ -7,13 +7,15 @@ class CommentBox extends React.Component{
         super(props);
     }
     render(){
-        // const classes = useStyles();
+        const detail = this.props.detail
         return(
+            
         <Toast style={{"max-width": "100%"}}>
             <Toast.Header closeButton={false}>
-                <strong className="mr-auto">Bootstrap</strong>
+                <strong className="mr-auto">{detail.author.username}</strong>
+                <small>{detail.posted}</small>
             </Toast.Header>
-            <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+            <Toast.Body>{detail.text}</Toast.Body>
         </Toast>
         );
     }

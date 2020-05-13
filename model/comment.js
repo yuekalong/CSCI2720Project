@@ -13,7 +13,7 @@ var CommentSchema = new Schema({
   locationID: String,
   parent_id: String,
   posted: {type: Date, default: Date.now},
-  userID: Number,
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   text: String
 });
 

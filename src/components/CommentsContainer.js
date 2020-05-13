@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import axios from "axios";
 import {Form, Button, Card} from "react-bootstrap";
 import CommentBox from "./CommentBox";
@@ -10,10 +11,27 @@ class CommentsContainer extends React.Component {
         super(props);
         this.state = {
             locID: this.props.locID,
-            text: ""
+            text: "",
+            comments: []
         }
         this.inputText = this.inputText.bind(this);
         this.postComment = this.postComment.bind(this);
+    }
+
+    componentDidMount() {
+        axios({
+            method: 'post',
+            url: port+'/api/comments/fetchGeneralComments',
+            data: {
+                locID: this.state.locID
+            }
+        })
+        .then((res) => {
+            this.setState({
+                comments: res.data
+            })
+            console.log(res.data);
+        });
     }
 
     inputText(e){
@@ -21,18 +39,22 @@ class CommentsContainer extends React.Component {
     }
 
     postComment(e){
-        axios({
-            method: 'post',
-            url: port+'/api/comments/postComment',
-            data: {
-                locID: this.state.locID,
-                text: this.state.text,
-                status: "general"
-            }
-        })
-        .then((res) => {
-            console.log(res.data);
-        });
+        if(this.state.text != ""){
+            ReactDOM.findDOMNode(this.commentForm).reset();
+            axios({
+                method: 'post',
+                url: port+'/api/comments/postComment',
+                data: {
+                    locID: this.state.locID,
+                    text: this.state.text,
+                    status: "general"
+                }
+            })
+            .then((res) => {
+                this.setState({text: ""});
+                console.log(res.data);
+            });
+        }
         e.preventDefault();
     }
 
@@ -42,10 +64,12 @@ class CommentsContainer extends React.Component {
                 <Card style={{ width: '100%' }}>
                     <Card.Body>
                         <Card.Title>Comments: </Card.Title>
-                        <CommentBox />
+                        <div style={{ height: "300px", overflow: "scroll"}}>
+                            {this.state.comments.map(comment => <CommentBox detail={comment}/>)}
+                        </div>
                     </Card.Body>
                     <Card.Body>
-                        <Form onSubmit={this.postComment}>
+                        <Form onSubmit={this.postComment} ref={ form => this.commentForm = form }>
                             <Form.Group>
                                 <Form.Label>Your comment</Form.Label>
                                 <Form.Control as="textarea" rows="3" onChange={this.inputText}/>
