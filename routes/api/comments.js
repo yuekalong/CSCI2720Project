@@ -16,13 +16,22 @@ function generateCommentID() {
     return result;
 }
 
-router.post("/fetchGeneralComments", (req, res) => {
+router.post("/fetchComments", (req, res) => {
     Comment.find({locationID: req.body.locID})
     .populate({path: 'author', select: 'username'})
     .sort({ posted: -1 })
-    .exec((err, comment)=>{
-        console.log(comment);
-        res.send(comment);
+    .exec((err, comments)=>{
+        general = comments.filter(comment => comment.parent_id == "");
+        reply = comments.filter(comment => comment.parent_id != "");
+        result = [];
+        general.forEach(parent => {
+            result.push({
+                general: parent,
+                reply: reply.filter(comment => comment.parent_id == parent.commentID)
+            })
+        }); 
+        console.log(result);
+        res.send(result);
     });
 });
 
@@ -54,7 +63,30 @@ router.post("/postComment", (req, res) => {
         });
     }
     else{
-        res.send("done");
+        console.log(req.body);
+        User.findOne({userID: req.session.userID},'_id', (err, user)=>{
+            if (err) {
+                res.send("error");
+            }
+            else {
+                console.log(user);
+                let comment = new Comment({
+                    commentID: generateCommentID(),
+                    locationID: req.body.locID,
+                    parent_id: req.body.parent_id,
+                    author: user._id,
+                    text: req.body.text
+                });
+                comment.save((err)=>{
+                    if (err) {
+                        res.send("error");
+                    }
+                    else {
+                        res.send("done");
+                    }
+                });
+            }
+        });
     }
 });
 

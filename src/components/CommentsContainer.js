@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import {Form, Button, Card} from "react-bootstrap";
+import {Alert, Form, Button, Card} from "react-bootstrap";
 import CommentBox from "./CommentBox";
 
 const port = "";
@@ -16,12 +16,13 @@ class CommentsContainer extends React.Component {
         }
         this.inputText = this.inputText.bind(this);
         this.postComment = this.postComment.bind(this);
+        this.refresh = this.refresh.bind(this);
     }
 
     componentDidMount() {
         axios({
             method: 'post',
-            url: port+'/api/comments/fetchGeneralComments',
+            url: port+'/api/comments/fetchComments',
             data: {
                 locID: this.state.locID
             }
@@ -30,7 +31,6 @@ class CommentsContainer extends React.Component {
             this.setState({
                 comments: res.data
             })
-            console.log(res.data);
         });
     }
 
@@ -52,10 +52,38 @@ class CommentsContainer extends React.Component {
             })
             .then((res) => {
                 this.setState({text: ""});
-                console.log(res.data);
+                axios({
+                    method: 'post',
+                    url: port+'/api/comments/fetchComments',
+                    data: {
+                        locID: this.state.locID
+                    }
+                })
+                .then((res) => {
+                    this.setState({
+                        comments: res.data
+                    })
+                });
             });
         }
         e.preventDefault();
+    }
+
+    refresh(e){
+        if(e){
+            axios({
+                method: 'post',
+                url: port+'/api/comments/fetchComments',
+                data: {
+                    locID: this.state.locID
+                }
+            })
+            .then((res) => {
+                this.setState({
+                    comments: res.data
+                })
+            });
+        }
     }
 
     render(){
@@ -64,9 +92,15 @@ class CommentsContainer extends React.Component {
                 <Card style={{ width: '100%' }}>
                     <Card.Body>
                         <Card.Title>Comments: </Card.Title>
-                        <div style={{ height: "300px", overflow: "scroll"}}>
-                            {this.state.comments.map(comment => <CommentBox detail={comment}/>)}
-                        </div>
+                        {this.state.comments.length == 0 ?
+                            <Alert variant='light' style={{"text-align": "center", "font-size": "30px"}}>
+                                No any comments
+                            </Alert>
+                        :
+                            <div style={{ height: "300px", overflow: "scroll"}}>
+                                {this.state.comments.map(comment => <CommentBox replied={this.refresh} locID={this.state.locID} detail={comment}/>)}
+                            </div>
+                        }
                     </Card.Body>
                     <Card.Body>
                         <Form onSubmit={this.postComment} ref={ form => this.commentForm = form }>
