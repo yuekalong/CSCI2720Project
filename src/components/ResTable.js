@@ -28,14 +28,6 @@ class ResTable extends React.Component {
     window.location="/#/loc/"+e.target.id
   }
 
-  addFavLoc(e){
-    axios.post("/api/favoriteLists/addLocation", e.target.id).then((res) => {
-      console.log(res.data)
-    }).catch((error)=>{
-      console.log(error)
-    });
-  }
-
   render() {
     const {data} = this.state;
     return (

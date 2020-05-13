@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import Button from "react-bootstrap/Button";
 import TopBar from '../components/TopBar.js';
 import {Card, ListGroup, ListGroupItem} from "react-bootstrap";
 import { Container, Row, Col } from 'reactstrap';
@@ -16,8 +17,11 @@ class LocPage extends React.Component{
         this.state={
             locID: window.location.href.substring((window.location.href.indexOf("loc")+4)),
             username: "",
-            data: {}
+            data: {},
+            notFav: true,
         };
+        this.addtofavorite = this.addtofavorite.bind(this);
+        this.delFav = this.delFav.bind(this);
     }
 
     componentDidMount() {
@@ -69,41 +73,55 @@ class LocPage extends React.Component{
         });
     }
 
-      render() {
-          let loc = this.state.data;
-          return(
-              <div>
-                <Row>
-                    <Col>
-                        <TopBar logined={true} username={this.state.username}/>
-                    </Col>
-                </Row>
-                <Container>
-                    <Card style={{ width: '100%' }}>
-                        <Card.Img variant="top" style={{ width: '100%', height: '300px', "object-fit": "cover"}} src={loc.photo} />
-                        <Card.Body>
-                            <Card.Title>{loc.locationName}</Card.Title>
-                        </Card.Body>
-                        <ListGroup className="list-group-flush">
-                            <ListGroupItem>
-                                <Rating name="rating"
-                                    value={parseInt(loc.rating)}
-                                    precision={0.5}
-                                    readOnly
-                                />
-                            </ListGroupItem>
-                            <ListGroupItem>Phone Number: {loc.phoneNum}</ListGroupItem>
-                        </ListGroup>
-                        <Card.Body style={{ height: '400px' }}>
-                            {loc.address}
-                            {/* <GoogleMap /> */}
-                        </Card.Body>
-                    </Card>
-                    <CommentsContainer locID={this.state.locID}/>
-                </Container>
-              </div>
-          )
-      }
+    addtofavorite=(loc)=>{
+        console.log('addTofav')
+        console.log(loc)
+    }
+    
+    delFav=(e)=>{
+        console.log('delfav');
+    }
+    
+    render() {
+        let loc = this.state.data;
+        return(
+            <div>
+            <Row>
+                <Col>
+                    <TopBar logined={true} username={this.state.username}/>
+                </Col>
+            </Row>
+            <Container>
+                <Card style={{ width: '100%' }}>
+                    <Card.Img variant="top" style={{ width: '100%', height: '300px', "object-fit": "cover"}} src={loc.photo} />
+                    <Card.Body>
+                        <Card.Title>{loc.locationName}</Card.Title>
+                    </Card.Body>
+                    <ListGroup className="list-group-flush">
+                        <ListGroupItem>
+                            <Rating name="rating"
+                                value={parseInt(loc.rating)}
+                                precision={0.5}
+                                readOnly
+                            />
+                        </ListGroupItem>
+                        <ListGroupItem>Phone Number: {loc.phoneNum}</ListGroupItem>
+                    </ListGroup>
+                    { this.props.notFav ?
+                        <Button id={loc.locationID} as="input" type="button" variant="danger" value="Delete favorite" onClick={() => this.delFav}/>
+                        :
+                        <Button id={loc.locationID} as="input" type="button" variant="success" value="Add favorite" onClick={() => this.addtofavorite(loc)}/>
+                    }
+                    <Card.Body style={{ height: '400px' }}>
+                        {loc.address}
+                        <GoogleMap showOne={true} oneLat={loc.latitude} oneLog={loc.longitude}/>
+                    </Card.Body>
+                </Card>
+                <CommentsContainer locID={this.state.locID}/>
+            </Container>
+            </div>
+        )
+    }
 }
 
 export default LocPage;

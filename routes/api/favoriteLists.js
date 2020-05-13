@@ -30,8 +30,11 @@ router.get('/getFav', async (req, res) => {
     });
 });
 
-router.post('/addLocation', (req, res) => {
+//add
+router.put('/addfav', (req, res) => {
     req.body.userID
 })
+//get
+//del
 
 module.exports = router;

@@ -94,4 +94,13 @@ router.post('/logout', (req, res) => {
   });
 });
 
+router.put("/addHome", async (req,res)=>{
+  var coord = req.body.homeCoord; //coordinate in format [lng, lat]
+  var userid = req.session.userID
+  const currentUser = await User.findOne({ userID: userid });
+  update = await User.updateOne(
+      { $set:{ home: coord } }
+    );
+});
+
 module.exports = router;

@@ -1,7 +1,7 @@
 import React from 'react';
 import ObjectList from 'react-object-list';
 import Axios from 'axios';
-
+import Button from "react-bootstrap/Button";
 import ReactTable from "react-table-v6";
 import "react-table-v6/react-table.css";
 
@@ -18,14 +18,18 @@ class FavTable extends React.Component{
             }
         }); 
         */
-
        Axios.get("/api/admins/readLocation").then((res) => {
             if (res.data.success) {
             this.setState({ data: res.data.data });
             }
         });
-
+        this.delFav = this.delFav.bind(this);
     }
+
+    delFav=()=>{
+        console.log('delfav');
+    }
+
     render() {
         const {data} = this.state;
 
@@ -43,6 +47,16 @@ class FavTable extends React.Component{
                 filterAll: true,
                 id: "address"
                 //Cell: props => <span className='number'>{props.value}</span> // Custom cell components!
+            },{
+                Header: "Delete",
+                accessor: "locationID",
+                sortable: false,
+                filterable: false,
+                Cell: (row) => {
+                  return <div>
+                    <Button id={row.value} style={{"width": "70%"}} as="input" type="button" variant="danger" value="Delete" onClick={this.delFav}/>
+                  </div>
+                }
             }]
         
         return(
