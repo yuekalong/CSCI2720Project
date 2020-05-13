@@ -1,11 +1,14 @@
 import React from 'react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+
 import axios from 'axios';
+
 class GoogleMap extends React.Component{
     constructor(props){
         super(props);
         this.state={
             data:[],
+            Home: {},
         };
         axios.get("/api/admins/readLocation").then((res) => {
             if (res.data.success) {
@@ -28,22 +31,39 @@ class GoogleMap extends React.Component{
                 key={ location.locationID }
                 onClick = { this.onMarkerClick }
                 title = { location.locationName }
+                name = { location.locationName }
                 position = {{lat: location.latitude, lng: location.longitude}}
             />
         );
+
         return(
             <div>
-                <Map 
-                    google={this.props.google} 
-                    zoom={15}
-                    initialCenter={{
-                    lat: 22.419589,
-                    lng: 114.206657
-                    }}
-                    style={style}
-                >
-                    {markers}
-                </Map>
+                {
+                    this.props.oneloc ?
+                    <Map 
+                        google={this.props.google} 
+                        zoom={14}
+                        initialCenter={{
+                            lat: this.props.lat,
+                            lng: this.props.lng
+                        }}
+                        style={style}
+                    >
+                        <Marker/>
+                    </Map>
+                    :
+                    <Map 
+                        google={this.props.google} 
+                        zoom={15}
+                        initialCenter={{
+                            lat: 22,
+                            lng: 114
+                        }}
+                        style={style}
+                    >
+                        {markers}
+                    </Map>
+                }
             </div>
         )
     }

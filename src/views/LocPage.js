@@ -14,7 +14,8 @@ class LocPage extends React.Component{
         super(props);
         this.state={
           username: "",
-          data: {}
+          data: {},
+          map: true
         };
     }
 
@@ -54,7 +55,8 @@ class LocPage extends React.Component{
                             rating: "",
                             latitude: "",
                             longitude: ""
-                          }
+                          },
+                        map: false
                     }); 
                 }
                 else {
@@ -69,9 +71,9 @@ class LocPage extends React.Component{
             }
         });
     }
-
       render() {
           let loc = this.state.data;
+          console.log(loc.latitude)
           return(
               <div>
                 <Row>
@@ -97,7 +99,7 @@ class LocPage extends React.Component{
                         </ListGroup>
                         <Card.Body style={{ height: '400px' }}>
                             {loc.address}
-                            <GoogleMap />
+                            {this.props.map &&<GoogleMap oneloc={true} lat={loc.latitude} lng={loc.longitude}/>}
                         </Card.Body>
                     </Card>
                 </Container>
