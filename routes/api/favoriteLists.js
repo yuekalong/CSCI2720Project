@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const FavoriteList = require('../../model/favoriteList');
 const Location = require("../../model/location");
-const User = require("../../model/user.model");
+const User = require("../../model/user");
 
 router.get('/getFav', async (req, res) => {
     let data = []

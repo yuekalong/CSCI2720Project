@@ -25,7 +25,6 @@ class ResTable extends React.Component {
   }
 
   viewLoc(e){
-    console.log(e.target.id);
     window.location="/#/loc/"+e.target.id
   }
 

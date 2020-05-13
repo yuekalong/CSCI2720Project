@@ -54,7 +54,7 @@ router.post('/signup', (req, res) => {
 router.post("/login", (req, res)=>{
   var data = req.body;
   console.log(req.body);
-  User.findOne({ username: data.username }, { password: 1 }, (err, user) => {
+  User.findOne({ username: data.username }, (err, user) => {
     if (user == null) res.send("Username Not Found");
     else{
       bcrypt.compare(data.password, user.password, (err, result) => {
@@ -62,6 +62,7 @@ router.post("/login", (req, res)=>{
           req.session.regenerate(function (err) {
             if (err) res.send("Login Fail");
             else {
+              req.session.userID = user.userID;
               req.session.user = data.username;
               req.session.userType = "user";
               res.send("Login Success");
