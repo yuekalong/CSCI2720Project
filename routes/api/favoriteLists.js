@@ -7,11 +7,11 @@ const Location = require("../../model/location");
 const User = require("../../model/user");
 
 //add
-router.put('/addfav', (req, res) => {
+router.put('/addfav', async (req, res) => {
     var favorite = req.body.favorite; //should be a location
     var userid = req.session.userID;
     var currentUser = User.findOne({ userID: userid });
-    await FavoriteList.updateOne(
+    await FavoriteList.update(
         {_id:currentUser._id},
         { "$push" :{ favorite: favorite._id } }, //pushing a _id to the favorite array
         function(err){
@@ -35,7 +35,7 @@ router.put('/addfav', (req, res) => {
 router.get('/getFav', async (req, res) => {
     let data = []
     FavoriteList
-        .find()
+        .find({userID : req.session.userID})
         .populate('favorite')
         .exec(function(err, loc){
                 if(loc === null)
@@ -43,7 +43,10 @@ router.get('/getFav', async (req, res) => {
                 else if (err)
                     return "ERROR find favorite location.";
                 else{
-                   return; //......
+                   return res.send({
+                    success: true,
+                    data: loc, //should be list of location._id
+                  });
                 }
             })
     return res.send({

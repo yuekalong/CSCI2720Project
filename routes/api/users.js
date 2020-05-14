@@ -24,7 +24,7 @@ router.post("/signup", (req, res) => {
         var user = new User({
           userID: maxId + 1,
           username: data.username,
-          password: data.password
+          password: data.password,
         });
 
         var favList = new FavList({
@@ -96,28 +96,27 @@ router.post('/logout', (req, res) => {
 
 
 router.put("/updateHome", async (req,res)=>{
-  console.log(req.body);
   var coord = req.body.home;
   var userid = req.session.userID;
   var currentUser = User.findOne({ userID: userid });
-  await User.updateOne(
-      {_id:currentUser._id},
-      { $set :{ home: req.body.home } },
-      function(err){
-        if(err){
-          return res.send({
-            error: err,
-            success:false
-          })
-        }
-        else{
-          return res.send({
-            success: true,
-            homeCoord: coord
-          });
-        }
+  User.findOneAndUpdate(
+    {userID: userid},
+    { "$set" : { "home.0" : coord[0] , "home.1" : coord[1]} },
+    function(err){
+      if(err){
+        return res.send({
+          error: err,
+          success:false
+        })
       }
-    );
+      else{
+        return res.send({
+          success: true,
+          homeCoord: coord
+        });
+      }
+    }
+  )
 });
 
 router.get("/getHome", async (req, res)=>{

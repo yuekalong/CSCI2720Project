@@ -1,6 +1,6 @@
 import React from 'react';
 import ObjectList from 'react-object-list';
-import Axios from 'axios';
+import axios from 'axios';
 import Button from "react-bootstrap/Button";
 import ReactTable from "react-table-v6";
 import "react-table-v6/react-table.css";
@@ -12,13 +12,13 @@ class FavTable extends React.Component{
             data:[]
         };
         /* 
-        Axios.get("/api/favoriteLists/getFav").then((res) => {
+        axios.get("/api/favoriteLists/getFav").then((res) => {
             if (res.data.success) {
               this.setState({ data: res.data.data });
             }
         }); 
         */
-       Axios.get("/api/admins/readLocation").then((res) => {
+       axios.get("/api/admins/readLocation").then((res) => {
             if (res.data.success) {
             this.setState({ data: res.data.data });
             }

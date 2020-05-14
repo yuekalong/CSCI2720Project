@@ -1,7 +1,6 @@
 import React from 'react';
-import { Map, Marker, GoogleApiWrapper, InfoWindow} from 'google-maps-react';
+import { Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 import axios from 'axios';
-import Button from 'react-bootstrap'
 
 class GoogleMap extends React.Component{
     constructor(props){
@@ -17,12 +16,6 @@ class GoogleMap extends React.Component{
               this.setState({ data: res.data.data });
             }
         });
-        this.onMarkerClick = this.onMarkerClick.bind(this);
-        this.mapClicked = this.mapClicked.bind(this);
-        this.addingupdatingHome = this.addingupdatingHome.bind(this);
-    }
-
-    componentDidMount(){
         axios.get("/api/users/getHome").then((res) => {
             if (res.data.success) {
                 this.setState({ 
@@ -33,6 +26,9 @@ class GoogleMap extends React.Component{
                 console.log("get data not success");
             }
         });
+        this.onMarkerClick = this.onMarkerClick.bind(this);
+        this.mapClicked = this.mapClicked.bind(this);
+        this.addingupdatingHome = this.addingupdatingHome.bind(this);
     }
 
     onMarkerClick = (props, marker, e) =>{
@@ -55,6 +51,7 @@ class GoogleMap extends React.Component{
                             home: res.data.homeCoord,
                             WantAddOrUpdateHome: false
                         });
+                        alert(res.data.homeCoord);
                     }
             });
             console.log(coord)
@@ -93,16 +90,17 @@ class GoogleMap extends React.Component{
 
         return(
             <div>
+                    {this.props.oneLat},{this.props.oneLog}<br/>
                     <button onClick={this.addingupdatingHome}>Add/Update Home</button>
-                    <br/>Your Home location: {this.state.home}
+                    <br/>Your Home location: <br/>{this.state.home[0]}, {this.state.home[1]}
                 <div>
                     {this.props.showOne ?
                         <Map 
                             google={this.props.google} 
                             zoom={15}
                             initialCenter={{
-                            lat: this.props.oneLat,
-                            lng: this.props.oneLog
+                            lat: parseFloat(this.props.oneLat),
+                            lng: parseFloat(this.props.oneLog)
                             }}
                             style={style}
                         >
@@ -119,6 +117,10 @@ class GoogleMap extends React.Component{
                             }}
                             style={style}
                         >
+                            <Marker
+                                position={{lat: this.state.home[1], lng: this.state.home[0]}}
+                                title = {'your home'}
+                            />
                             {markers}
                         </Map>
                     }
