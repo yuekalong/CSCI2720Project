@@ -53,7 +53,7 @@ class LoginContainer extends React.Component {
       url: this.props.port + '/api/users/signup',
       data: {
         username: ReactDOM.findDOMNode(this.usernameSignup).value,
-        password: ReactDOM.findDOMNode(this.passwordSignup).value
+        password: ReactDOM.findDOMNode(this.passwordSignup).value,
       }
     })
     .then(res=> {
