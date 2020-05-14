@@ -6,8 +6,6 @@ import Navbar from "react-bootstrap/Navbar";
 //Other Component:
 import LoginContainer from "../components/LoginContainer.js"
 
-const port = "";
-
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
@@ -16,11 +14,11 @@ class LoginPage extends React.Component {
   componentDidMount() {
     axios({
       method: 'post',
-      url: port+'/api/users/checkLogin',
+      url: this.props.port+'/api/users/checkLogin',
     })
     .then((res) => {
       if(res.data.status == "logined"){
-        window.location = "/#/MainPage";
+        window.location = this.props.port+"/#/MainPage";
       }
     });
   }
@@ -31,7 +29,7 @@ class LoginPage extends React.Component {
       <Navbar bg="light" expand="lg" className="shawdow navBar">
         <Navbar.Brand href="#">FoodRoundCU</Navbar.Brand>
       </Navbar>
-      <LoginContainer />
+      <LoginContainer port={this.props.port}/>
     </React.Fragment>
   );
   }

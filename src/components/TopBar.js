@@ -6,8 +6,6 @@ import SearchIcon from '@material-ui/icons/Search';
 
 import SearchBar from "./SearchBar.js";
 
-const port = "";
-
 class TopBar extends React.Component{
   constructor(props) {
     super(props);
@@ -20,11 +18,11 @@ class TopBar extends React.Component{
   logoutFun(e){
     axios({
       method: 'post',
-      url: port+'/api/users/logout'
+      url: this.props.port+'/api/users/logout'
     }).
     then((res)=>{
       if(res.data == "logout done"){
-        window.location = "/#/";
+        window.location = this.props.port + "/#/";
       }
       else {
         alert("Login Fail");
@@ -37,7 +35,7 @@ class TopBar extends React.Component{
       <div>
         {this.props.logined ?
           <Navbar className="shadow" bg="light" expand="lg">
-            <Navbar.Brand href="#/MainPage">FoodRoundCU</Navbar.Brand>
+            <Navbar.Brand href="/2050/#/MainPage">FoodRoundCU</Navbar.Brand>
             <Nav className="mr-auto">
             </Nav>
             <SearchIcon />

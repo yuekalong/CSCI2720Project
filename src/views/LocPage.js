@@ -10,7 +10,6 @@ import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import GoogleMap from "../components/GoogleMap";
 import CommentsContainer from "../components/CommentsContainer";
 
-const port = "";
 class LocPage extends React.Component{
     constructor(props){
         super(props);
@@ -28,11 +27,11 @@ class LocPage extends React.Component{
     componentDidMount() {
         axios({
             method: 'post',
-            url: port+'/api/users/checkLogin',
+            url: this.props.port+'/api/users/checkLogin',
         })
         .then((res) => {
             if(res.data.status == "not logined"){
-            window.location = "/#/";
+            window.location = this.props.port + "/#/";
             }
             else if (res.data.status == "logined"){
                 this.setState({
@@ -43,7 +42,7 @@ class LocPage extends React.Component{
 
         axios({
             method: 'post',
-            url: port+'/api/locations/loc/'+this.state.locID,
+            url: this.props.port + '/api/locations/loc/'+this.state.locID,
             data: {locID: this.state.locID}
         })
         .then((res) => {
@@ -52,7 +51,7 @@ class LocPage extends React.Component{
                     this.setState({
                         data: {
                             locationName: "404 Not Found",
-                            photo: {imageNotFound},
+                            photo: "../assets/img/imageNotFound.png",
                             address: "",
                             phoneNum: "",
                             rating: "",
@@ -70,11 +69,11 @@ class LocPage extends React.Component{
             }
             else {
                 alert("ERROR");
-                window.location = "/#/";
+                window.location = this.props.port + "/#/";
             }
         });
 
-        axios.post("/api/favoriteLists/checkfav",{
+        axios.post(this.props.port + "/api/favoriteLists/checkfav",{
             favouriteID: this.state.locID
         })
         .then((res)=>{
@@ -89,7 +88,7 @@ class LocPage extends React.Component{
         console.log(loc) // this should be the location, but i cant check it.
 
         // I cant test the code below because of 404, can someone check check. Thanks!
-        axios.put("/api/favoriteLists/addfav",{
+        axios.put(this.props.port + "/api/favoriteLists/addfav",{
             favouriteID: loc.locationID
         })
         .then((res)=>{
@@ -105,7 +104,7 @@ class LocPage extends React.Component{
         console.log('delfav');
         console.log(loc) // this should be the location, but i cant check it.
         // I cant test the code below because of 404, can someone check check. Thanks!
-        axios.put("/api/favoriteLists/delfav",{
+        axios.put(this.props.port + "/api/favoriteLists/delfav",{
             favouriteID: loc.locationID
         })
         .then((res)=>{
@@ -125,7 +124,7 @@ class LocPage extends React.Component{
             <div>
             <Row>
                 <Col>
-                    <TopBar logined={true} username={this.state.username}/>
+                    <TopBar port={this.props.port} logined={true} username={this.state.username}/>
                 </Col>
             </Row>
             <Container>
@@ -151,10 +150,10 @@ class LocPage extends React.Component{
                     }
                     <Card.Body style={{ height: '400px' }}>
                         {loc.address}
-                        <GoogleMap showOne={true} oneLat={loc.latitude} oneLog={loc.longitude}/>
+                        <GoogleMap port={this.props.port} style={{ width: '90%', height: '350px'}} showOne={true} oneLat={loc.latitude} oneLog={loc.longitude}/>
                     </Card.Body>
                 </Card>
-                <CommentsContainer locID={this.state.locID}/>
+                <CommentsContainer port={this.props.port} locID={this.state.locID}/>
             </Container>
             </div>
         )

@@ -9,14 +9,13 @@ import {GrFavorite} from 'react-icons/fa';
 import ReactTable from "react-table-v6";
 import "react-table-v6/react-table.css";
 
-
 class ResTable extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       data: []
     };
-    axios.get("/api/admins/readLocation").then((res) => {
+    axios.get(this.props.port+"/api/admins/readLocation").then((res) => {
       if (res.data.success) {
         this.setState({ data: res.data.data });
       }
@@ -25,7 +24,7 @@ class ResTable extends React.Component {
   }
 
   viewLoc(e){
-    window.location="/#/loc/"+e.target.id
+    window.location = this.props.port+ "/#/loc/"+e.target.id;
   }
 
   render() {
@@ -42,8 +41,8 @@ class ResTable extends React.Component {
             sortable: false,
             filterable: false,
             Cell: (row) => {
-              if(row.value == "") return <div><img height={50} src={imageNotFound}/></div>
-              return <div><img height={34} src={row.value}/></div>
+              if(row.value == "") return <div style={{ "text-align": "center" }}><img height={"100px"} src={imageNotFound}/></div>
+              return <div style={{ "text-align": "center" }}><img height={"100px"} src={row.value}/></div>
             }
           },
           {
@@ -86,7 +85,7 @@ class ResTable extends React.Component {
             }
           },
         ]}
-        defaultPageSize={10}
+        defaultPageSize={5}
       />
       </div>
     );

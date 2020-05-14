@@ -12,7 +12,7 @@ class GoogleMap extends React.Component{
             showOne:false,
             WantAddOrUpdateHome: false,
         };
-        axios.get("/api/admins/readLocation").then((res) => {
+        axios.get(this.props.port + "/api/admins/readLocation").then((res) => {
             if (res.data.success) {
               this.setState({ data: res.data.data });
             }
@@ -23,7 +23,7 @@ class GoogleMap extends React.Component{
     }
 
     componentDidMount(){
-        axios.get("/api/users/getHome").then((res) => {
+        axios.get(this.props.port + "/api/users/getHome").then((res) => {
             if (res.data.success) {
                 this.setState({ 
                     home: res.data.data.home
@@ -36,7 +36,7 @@ class GoogleMap extends React.Component{
     }
 
     onMarkerClick = (props, marker, e) =>{
-        window.location="/#/loc/"+props.locid
+        window.location= this.props.port + "/#/loc/"+props.locid
     }
 
     mapClicked = (mapProps, map, clickEvent) => {
@@ -46,7 +46,7 @@ class GoogleMap extends React.Component{
             let lat = location.lat();
             let coord = [lng, lat];
             axios
-                .put("/api/users/updateHome", {
+                .put(this.props.port + "/api/users/updateHome", {
                     home: coord,
                 })
                 .then((res) => {

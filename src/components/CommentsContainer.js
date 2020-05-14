@@ -4,8 +4,6 @@ import axios from "axios";
 import {Alert, Form, Button, Card} from "react-bootstrap";
 import CommentBox from "./CommentBox";
 
-const port = "";
-
 class CommentsContainer extends React.Component {
     constructor(props){
         super(props);
@@ -22,7 +20,7 @@ class CommentsContainer extends React.Component {
     componentDidMount() {
         axios({
             method: 'post',
-            url: port+'/api/comments/fetchComments',
+            url: this.props.port+'/api/comments/fetchComments',
             data: {
                 locID: this.state.locID
             }
@@ -43,7 +41,7 @@ class CommentsContainer extends React.Component {
             ReactDOM.findDOMNode(this.commentForm).reset();
             axios({
                 method: 'post',
-                url: port+'/api/comments/postComment',
+                url: this.props.port+'/api/comments/postComment',
                 data: {
                     locID: this.state.locID,
                     text: this.state.text,
@@ -54,7 +52,7 @@ class CommentsContainer extends React.Component {
                 this.setState({text: ""});
                 axios({
                     method: 'post',
-                    url: port+'/api/comments/fetchComments',
+                    url: this.props.port+'/api/comments/fetchComments',
                     data: {
                         locID: this.state.locID
                     }
@@ -73,7 +71,7 @@ class CommentsContainer extends React.Component {
         if(e){
             axios({
                 method: 'post',
-                url: port+'/api/comments/fetchComments',
+                url: this.props.port+'/api/comments/fetchComments',
                 data: {
                     locID: this.state.locID
                 }
@@ -98,7 +96,7 @@ class CommentsContainer extends React.Component {
                             </Alert>
                         :
                             <div style={{ height: "300px", overflow: "scroll"}}>
-                                {this.state.comments.map(comment => <CommentBox replied={this.refresh} locID={this.state.locID} detail={comment}/>)}
+                                {this.state.comments.map(comment => <CommentBox port={this.props.port} replied={this.refresh} locID={this.state.locID} detail={comment}/>)}
                             </div>
                         }
                     </Card.Body>

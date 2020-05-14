@@ -23,25 +23,24 @@ import Navbar from "react-bootstrap/Navbar";
 import LocPage from "./views/LocPage.js";
 import AboutThisProjectPage from "./views/AboutThisProjectPage.js";
 
+
 class App extends React.Component{
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     navbarMode: "normal"
-  //   }
-  // }
-  //
-  // shouldComponentUpdate(nextProps, nextState)
+  constructor(props){ 
+    super(props);
+    this.state = {
+      port: ""
+    } 
+  }
 
   render(){
     return(
       <React.Fragment>
         <HashRouter>
           <Switch>
-            <Route exact path="/" render={(props) => <LoginPage {...props} />} />
-            <Route path="/MainPage" render={(props) => <MainPage {...props} />} />
-            <Route path="/AdminPage" render={(props) => <AdminPage {...props} />} />
-            <Route path="/loc/:locID" render={(props) => <LocPage {...props} />} />
+            <Route exact path="/" render={(props) => <LoginPage port={this.state.port} {...props} />} />
+            <Route path="/MainPage" render={(props) => <MainPage port={this.state.port} {...props} />} />
+            <Route path="/AdminPage" render={(props) => <AdminPage port={this.state.port} {...props} />} />
+            <Route path="/loc/:locID" render={(props) => <LocPage port={this.state.port} {...props} />} />
             <Route
                 path="/AboutThisProjectPage"
                 render={(props) => <AboutThisProjectPage {...props} />}

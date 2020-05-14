@@ -34,12 +34,20 @@ router.put('/addfav', (req, res) => {
 router.get('/getfav', async (req, res) => {
     let data = []
     FavoriteList.findOne({userID: req.session.userID}, (err, fav) => {
-        Location.find({locationID: { $in: fav.favorite }}, (err, loc) => {
+        if(fav != null){
+            Location.find({locationID: { $in: fav.favorite }}, (err, loc) => {
+                return res.send({
+                    success: true,
+                    data: loc //return a list of location.
+                });
+            });
+        }
+        else{
             return res.send({
                 success: true,
-                data: loc, //return a list of location.
+                data: {}
             });
-        });
+        }
     });
 });
 
