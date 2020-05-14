@@ -17,6 +17,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import MainPage from "./views/MainPage.js";
 import AdminPage from "./views/AdminPage.js";
+import AboutThisProjectPage from "./views/AboutThisProjectPage.js";
+
 import App from "./App";
 
 ReactDOM.render(
@@ -25,6 +27,10 @@ ReactDOM.render(
       <Route exact path="/" render={(props) => <App {...props} />} />
       <Route path="/MainPage" render={(props) => <MainPage {...props} />} />
       <Route path="/AdminPage" render={(props) => <AdminPage {...props} />} />
+      <Route
+        path="/AboutThisProjectPage"
+        render={(props) => <AboutThisProjectPage {...props} />}
+      />
       <Redirect to="/" />
     </Switch>
   </HashRouter>,
