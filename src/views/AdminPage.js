@@ -6,6 +6,7 @@ import { Navbar, Button, Container } from "react-bootstrap";
 import FlushDataCard from "../components/admin/FlushDataCard";
 import CRUDLocation from "../components/admin/CRUDLocation";
 import CRUDUser from "../components/admin/CRUDUser";
+import ActiveChart from "../components/admin/ActiveChart";
 
 class AdminPage extends React.Component {
   constructor(props) {
@@ -34,6 +35,8 @@ class AdminPage extends React.Component {
           <CRUDLocation />
           <br />
           <CRUDUser />
+          <br />
+          <ActiveChart />
         </Container>
       </div>
     );
