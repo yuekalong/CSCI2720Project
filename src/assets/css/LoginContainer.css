@@ -26,3 +26,7 @@
 .loginContainerTab {
   margin-top: 10px;
 }
+
+.navBar {
+  z-index: 100;
+}
