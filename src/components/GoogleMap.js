@@ -93,6 +93,7 @@ class GoogleMap extends React.Component{
 
         return(
             <div>
+                    {this.props.oneLat}, {this.props.oneLog}<br/>
                     <button onClick={this.addingupdatingHome}>Add/Update Home</button>
                     <br/>Your Home location: {this.state.home}
                 <div>
@@ -101,8 +102,8 @@ class GoogleMap extends React.Component{
                             google={this.props.google} 
                             zoom={15}
                             initialCenter={{
-                            lat: this.props.oneLat,
-                            lng: this.props.oneLog
+                            lat: parseFloat(this.props.oneLat),
+                            lng: parseFloat(this.props.oneLog)
                             }}
                             style={style}
                         >

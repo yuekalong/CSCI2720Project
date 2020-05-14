@@ -73,42 +73,54 @@ class LocPage extends React.Component{
                 window.location = "/#/";
             }
         });
+
+        axios.post("/api/favoriteLists/checkfav",{
+            favouriteID: this.state.locID
+        })
+        .then((res)=>{
+            this.setState({
+                notFav: res.data.notFav
+            });
+        });
     }
 
     addtofavorite=(loc)=>{
         console.log('addTofav')
         console.log(loc) // this should be the location, but i cant check it.
 
-        /* I cant test the code below because of 404, can someone check check. Thanks!
-        axios.put("/api/favoriteLists/addfav",{favourite : loc})
-             .then((res)=>{
-                 if (res.data.success) {
-                        this.setState({
-                            notFav: false
-                        });
-                    }
-             });
-        */
+        // I cant test the code below because of 404, can someone check check. Thanks!
+        axios.put("/api/favoriteLists/addfav",{
+            favouriteID: loc.locationID
+        })
+        .then((res)=>{
+            if (res.data.success) {
+                    this.setState({
+                    notFav: false
+                });
+            }
+         });
     }
     
     delFav=(loc)=>{
         console.log('delfav');
         console.log(loc) // this should be the location, but i cant check it.
-        /* I cant test the code below because of 404, can someone check check. Thanks!
-        axios.put("/api/favoriteLists/delfav",{favourite : loc})
-             .then((res)=>{
-                 if (res.data.success) {
-                        this.setState({
-                            notFav: false
-                        });
-                    }
-             });
-        */
+        // I cant test the code below because of 404, can someone check check. Thanks!
+        axios.put("/api/favoriteLists/delfav",{
+            favouriteID: loc.locationID
+        })
+        .then((res)=>{
+            if (res.data.success) {
+                this.setState({
+                   notFav: true
+                    });
+                }
+         });
     }
     
     render() {
         let loc = this.state.data;
         console.log(loc);
+        console.log([loc.latitude, loc.longitude]);
         return(
             <div>
             <Row>
@@ -132,14 +144,14 @@ class LocPage extends React.Component{
                         </ListGroupItem>
                         <ListGroupItem>Phone Number: {loc.phoneNum}</ListGroupItem>
                     </ListGroup>
-                    { this.props.notFav ?
-                        <Button id={loc.locationID} as="input" type="button" variant="danger" value="Delete favorite" onClick={() => this.delFav(loc)}/>
-                        :
+                    { this.state.notFav ?
                         <Button id={loc.locationID} as="input" type="button" variant="success" value="Add favorite" onClick={() => this.addtofavorite(loc)}/>
+                        :
+                        <Button id={loc.locationID} as="input" type="button" variant="danger" value="Delete favorite" onClick={() => this.delFav(loc)}/>
                     }
                     <Card.Body style={{ height: '400px' }}>
                         {loc.address}
-                        {this.props.map && <GoogleMap showOne={true} oneLat={loc.latitude} oneLog={loc.longitude}/>}
+                        <GoogleMap showOne={true} oneLat={loc.latitude} oneLog={loc.longitude}/>
                     </Card.Body>
                 </Card>
                 <CommentsContainer locID={this.state.locID}/>
