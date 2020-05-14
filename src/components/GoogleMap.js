@@ -90,7 +90,6 @@ class GoogleMap extends React.Component{
 
         return(
             <div>
-                    {this.props.oneLat},{this.props.oneLog}<br/>
                     <button onClick={this.addingupdatingHome}>Add/Update Home</button>
                     <br/>Your Home location: <br/>{this.state.home[0]}, {this.state.home[1]}
                 <div>

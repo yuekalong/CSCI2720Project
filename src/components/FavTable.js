@@ -11,23 +11,25 @@ class FavTable extends React.Component{
         this.state={
             data:[]
         };
-        /* 
-        axios.get("/api/favoriteLists/getFav").then((res) => {
+        this.delFav = this.delFav.bind(this);
+        axios.get("/api/favoriteLists/getfav").then((res) => {
             if (res.data.success) {
               this.setState({ data: res.data.data });
             }
         }); 
-        */
-       axios.get("/api/admins/readLocation").then((res) => {
-            if (res.data.success) {
-            this.setState({ data: res.data.data });
-            }
-        });
-        this.delFav = this.delFav.bind(this);
     }
 
-    delFav=()=>{
-        console.log('delfav');
+    delFav(e){
+        axios.put("/api/favoriteLists/delfav",{
+            favouriteID: e.target.id
+        })
+        .then((res)=>{
+            axios.get("/api/favoriteLists/getfav").then((res) => {
+                if (res.data.success) {
+                  this.setState({ data: res.data.data });
+                }
+            }); 
+         });
     }
 
     render() {
@@ -45,8 +47,8 @@ class FavTable extends React.Component{
                 filterMethod: (filter, rows) =>
                     matchSorter(rows, filter.value, { keys: ["address"] }),
                 filterAll: true,
-                id: "address"
-                //Cell: props => <span className='number'>{props.value}</span> // Custom cell components!
+                id: "address",
+                Cell: props => <span className='number'>{props.value}</span> // Custom cell components!
             },{
                 Header: "Delete",
                 accessor: "locationID",
@@ -61,7 +63,7 @@ class FavTable extends React.Component{
         
         return(
             <div>
-                <h3>Yout Favorite Location</h3>
+                <h3>Your Favorite Location</h3>
                 <ReactTable
                     data={data}
                     columns={columns}
