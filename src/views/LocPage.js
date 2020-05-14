@@ -77,15 +77,38 @@ class LocPage extends React.Component{
 
     addtofavorite=(loc)=>{
         console.log('addTofav')
-        console.log(loc)
+        console.log(loc) // this should be the location, but i cant check it.
+
+        /* I cant test the code below because of 404, can someone check check. Thanks!
+        axios.put("/api/favoriteLists/addfav",{favourite : loc})
+             .then((res)=>{
+                 if (res.data.success) {
+                        this.setState({
+                            notFav: false
+                        });
+                    }
+             });
+        */
     }
     
-    delFav=(e)=>{
+    delFav=(loc)=>{
         console.log('delfav');
+        console.log(loc) // this should be the location, but i cant check it.
+        /* I cant test the code below because of 404, can someone check check. Thanks!
+        axios.put("/api/favoriteLists/delfav",{favourite : loc})
+             .then((res)=>{
+                 if (res.data.success) {
+                        this.setState({
+                            notFav: false
+                        });
+                    }
+             });
+        */
     }
     
     render() {
         let loc = this.state.data;
+        console.log(loc);
         return(
             <div>
             <Row>
@@ -110,7 +133,7 @@ class LocPage extends React.Component{
                         <ListGroupItem>Phone Number: {loc.phoneNum}</ListGroupItem>
                     </ListGroup>
                     { this.props.notFav ?
-                        <Button id={loc.locationID} as="input" type="button" variant="danger" value="Delete favorite" onClick={() => this.delFav}/>
+                        <Button id={loc.locationID} as="input" type="button" variant="danger" value="Delete favorite" onClick={() => this.delFav(loc)}/>
                         :
                         <Button id={loc.locationID} as="input" type="button" variant="success" value="Add favorite" onClick={() => this.addtofavorite(loc)}/>
                     }
