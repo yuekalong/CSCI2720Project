@@ -94,4 +94,38 @@ router.post('/logout', (req, res) => {
   });
 });
 
+
+router.put("/updateHome", async (req,res)=>{
+  console.log(req.body);
+  var coord = req.body.home;
+  var userid = req.session.userID;
+  var currentUser = User.findOne({ userID: userid });
+  await User.updateOne(
+      {_id:currentUser._id},
+      { $set :{ home: req.body.home } },
+      function(err){
+        if(err){
+          return res.send({
+            error: err,
+            success:false
+          })
+        }
+        else{
+          return res.send({
+            success: true,
+            homeCoord: coord
+          });
+        }
+      }
+    );
+});
+
+router.get("/getHome", async (req, res)=>{
+  let result = await User.findOne({userID: req.session.userID}).exec();
+  return res.send({
+    success: true,
+    data: result,
+  });
+})
+
 module.exports = router;
