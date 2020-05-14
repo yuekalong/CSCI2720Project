@@ -1,0 +1,41 @@
+.AboutThisProjectComponent {
+  border-radius: 25px;
+  background-color: white;
+  box-shadow: 0.2rem 0.5rem 1rem rgba(0, 0, 0, 0.2) !important;
+}
+
+.cardTitle {
+  padding-left: 0.5em;
+  padding-top: 0.5em;
+  font-size: 2em;
+  color: grey;
+}
+
+.cardText {
+  padding-left: 2em;
+  padding-right: 2em;
+  font-size: 1.2em;
+  color: #545454;
+}
+
+.page {
+  color: rebeccapurple;
+  font-size: 1.3em;
+}
+
+.subtitle {
+  color: darkcyan;
+}
+
+.subheading {
+  color: #8b8b00;
+}
+
+.sectionText {
+  padding-left: 4em;
+  padding-right: 4em;
+}
+
+.separateLine {
+  border-top: 3px solid #bbb;
+}
