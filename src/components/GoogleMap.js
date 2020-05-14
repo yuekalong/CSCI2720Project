@@ -11,14 +11,20 @@ class GoogleMap extends React.Component{
             showOne:false,
             WantAddOrUpdateHome: false,
         };
-        axios.get("/api/admins/readLocation").then((res) => {
+        axios.get(this.props.port + "/api/admins/readLocation").then((res) => {
             if (res.data.success) {
               this.setState({ data: res.data.data });
             }
         });
-        axios.get("/api/users/getHome").then((res) => {
+        this.onMarkerClick = this.onMarkerClick.bind(this);
+        this.mapClicked = this.mapClicked.bind(this);
+        this.addingupdatingHome = this.addingupdatingHome.bind(this);
+    }
+
+    componentDidMount(){
+        axios.get(this.props.port + "/api/users/getHome").then((res) => {
             if (res.data.success) {
-                this.setState({ 
+                this.setState({
                     home: res.data.data.home
                 });
             }
@@ -32,7 +38,7 @@ class GoogleMap extends React.Component{
     }
 
     onMarkerClick = (props, marker, e) =>{
-        window.location="/#/loc/"+props.locid
+        window.location= this.props.port + "/#/loc/"+props.locid
     }
 
     mapClicked = (mapProps, map, clickEvent) => {
@@ -42,7 +48,7 @@ class GoogleMap extends React.Component{
             let lat = location.lat();
             let coord = [lng, lat];
             axios
-                .put("/api/users/updateHome", {
+                .put(this.props.port + "/api/users/updateHome", {
                     home: coord,
                 })
                 .then((res) => {
@@ -73,8 +79,8 @@ class GoogleMap extends React.Component{
         }
         const {data} = this.state;
 
-        const markers = 
-        this.state.data.map((location,index) => 
+        const markers =
+        this.state.data.map((location,index) =>
                 <Marker
                     onClick = { this.onMarkerClick }
                     onMouseover={ this.onMouseoverMarker }
@@ -93,8 +99,8 @@ class GoogleMap extends React.Component{
                 <br/>{this.state.home[0]}, {this.state.home[1]}
                 <div>
                     {this.props.showOne ?
-                        <Map 
-                            google={this.props.google} 
+                        <Map
+                            google={this.props.google}
                             zoom={15}
                             initialCenter={{
                                 lat: this.props.locationdetail.latitude,
@@ -114,8 +120,8 @@ class GoogleMap extends React.Component{
                             />
                         </Map>
                         :
-                        <Map 
-                            google={this.props.google} 
+                        <Map
+                            google={this.props.google}
                             onClick={this.mapClicked}
                             zoom={15}
                             initialCenter={{

@@ -9,8 +9,6 @@ import FavTable from '../components/FavTable.js';
 //
 // import IndexHeader from "../components/Headers/IndexHeader.js";
 
-const port = "";
-
 class MainPage extends React.Component{
     constructor(props){
         super(props);
@@ -22,11 +20,11 @@ class MainPage extends React.Component{
     componentDidMount() {
       axios({
         method: 'post',
-        url: port+'/api/users/checkLogin',
+        url: this.props.port+'/api/users/checkLogin',
       })
       .then((res) => {
         if(res.data.status == "not logined"){
-          window.location = "/#/";
+          window.location = this.props.port + "/#/";
         }
         else if (res.data.status == "logined"){
           this.setState({
@@ -47,15 +45,15 @@ class MainPage extends React.Component{
                 <Container>
                     <Row>
                         <Col>
-                            <ResTable />
+                            <ResTable port={this.props.port}/>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <GoogleMap />
+                            <GoogleMap port={this.props.port}/>
                         </Col>
                         <Col>
-                            <FavTable />
+                            <FavTable port={this.props.port}/>
                         </Col>
                     </Row>
                 </Container>

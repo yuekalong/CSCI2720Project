@@ -85,7 +85,7 @@ class CreateLocation extends React.Component {
       rating: this.state.rating,
     };
     axios
-      .post("/api/admins/createLocation", {
+      .post(this.props.port + "/api/admins/createLocation", {
         obj: JSON.stringify(newObj),
       })
       .then((res) => {
@@ -305,7 +305,7 @@ class EditLocation extends React.Component {
       rating: this.state.rating,
     };
     axios
-      .put("/api/admins/updateLocation", {
+      .put(this.props.port + "/api/admins/updateLocation", {
         obj: JSON.stringify(updateObj),
       })
       .then((res) => {
@@ -453,7 +453,7 @@ class DeleteLocation extends React.Component {
   }
   deleteLocation() {
     axios
-      .delete(`/api/admins/deleteLocation/${this.state.location.locationID}`)
+      .delete(this.props.port + `/api/admins/deleteLocation/${this.state.location.locationID}`)
       .then((res) => {
         if (res.data.success) {
           alert("Success!");
@@ -517,7 +517,7 @@ class UploadCSV extends React.Component {
     const formData = new FormData();
     const csvfile = document.getElementById("file");
     formData.append("csvfile", csvfile.files[0]);
-    axios.post("/api/admins/readCSV", formData).then((res) => {
+    axios.post(this.props.port + "/api/admins/readCSV", formData).then((res) => {
       if (res.data.success) {
         alert("success!");
         this.props.refresh(null);
@@ -559,7 +559,7 @@ class CRUDLocation extends React.Component {
       location: [],
     };
 
-    axios.get("/api/admins/readLocation").then((res) => {
+    axios.get(this.props.port + "/api/admins/readLocation").then((res) => {
       if (res.data.success) {
         this.setState({ location: res.data.data });
       }
@@ -568,7 +568,7 @@ class CRUDLocation extends React.Component {
   }
 
   refresh() {
-    axios.get("/api/admins/readLocation").then((res) => {
+    axios.get(this.props.port + "/api/admins/readLocation").then((res) => {
       if (res.data.success) {
         this.setState({ location: res.data.data });
       }
@@ -619,8 +619,8 @@ class CRUDLocation extends React.Component {
                 </tbody>
               </Table>
             </div>
-            <CreateLocation refresh={this.refresh} />
-            <UploadCSV refresh={this.refresh} />
+            <CreateLocation port = {this.props.port} refresh={this.refresh} />
+            <UploadCSV port = {this.props.port} refresh={this.refresh} />
           </Card.Text>
           <Card.Body className="cardText">
             <ReactTable
@@ -711,12 +711,14 @@ class CRUDLocation extends React.Component {
                     return (
                       <div>
                         <DeleteLocation
+                         port = {this.props.port}
                           onClick={() => {
                             return row.value;
                           }}
                           refresh={this.refresh}
                         />
                         <EditLocation
+                          port = {this.props.port}
                           onClick={() => {
                             return row.value;
                           }}

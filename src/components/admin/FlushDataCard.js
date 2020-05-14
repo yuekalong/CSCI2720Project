@@ -21,7 +21,7 @@ class ConfirmDialog extends React.Component {
     this.setState({ show: true });
   }
   flushData() {
-    axios.get("/api/admins/flushData").then((res) => {
+    axios.get(this.props.port + "/api/admins/flushData").then((res) => {
       console.log(res);
       if (res.data.success) {
         alert("Success!");
@@ -80,7 +80,7 @@ class FlushDataCard extends React.Component {
               "text-align": "center",
             }}
           >
-            <ConfirmDialog />
+            <ConfirmDialog port={this.props.port}/>
           </div>
         </Card>
       </div>

@@ -40,7 +40,7 @@ class CreateUser extends React.Component {
   }
   createUser() {
     axios
-      .post("/api/admins/createUser", {
+      .post(this.props.port + "/api/admins/createUser", {
         userID: this.state.userID,
         username: this.state.username,
         password: this.state.password,
@@ -148,7 +148,7 @@ class EditUser extends React.Component {
   }
   updateUser() {
     axios
-      .put("/api/admins/updateUser", {
+      .put(this.props.port + "/api/admins/updateUser", {
         userID: this.state.userID,
         username: this.state.username,
         password: this.state.password,
@@ -235,7 +235,7 @@ class DeleteUser extends React.Component {
   }
   deleteUser() {
     axios
-      .delete(`/api/admins/deleteUser/${this.state.user.userID}`)
+      .delete(this.props.port + `/api/admins/deleteUser/${this.state.user.userID}`)
       .then((res) => {
         console.log(res);
         if (res.data.success) {
@@ -287,7 +287,7 @@ class CRUDUser extends React.Component {
       user: [],
     };
 
-    axios.get("/api/admins/readUser").then((res) => {
+    axios.get(this.props.port + "/api/admins/readUser").then((res) => {
       if (res.data.success) {
         this.setState({ user: res.data.data });
       }
@@ -297,7 +297,7 @@ class CRUDUser extends React.Component {
   }
 
   refresh() {
-    axios.get("/api/admins/readUser").then((res) => {
+    axios.get(this.props.port + "/api/admins/readUser").then((res) => {
       if (res.data.success) {
         this.setState({ user: res.data.data });
       }
@@ -310,7 +310,7 @@ class CRUDUser extends React.Component {
         <Card className="adminComponent">
           <Card.Title className="cardTitle">User</Card.Title>
           <Card.Text className="cardText">
-            <CreateUser refresh={this.refresh} />
+            <CreateUser port = {this.props.port} refresh={this.refresh} />
           </Card.Text>
           <Card.Body className="cardText">
             <ReactTable
@@ -347,12 +347,14 @@ class CRUDUser extends React.Component {
                     return (
                       <div>
                         <DeleteUser
+                          port = {this.props.port}
                           onClick={() => {
                             return row.value;
                           }}
                           refresh={this.refresh}
                         />
                         <EditUser
+                          port = {this.props.port}
                           onClick={() => {
                             return row.value;
                           }}

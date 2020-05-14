@@ -5,8 +5,6 @@ import {Button, Form, Tabs, Tab, Alert} from "react-bootstrap";
 
 import "../assets/css/LoginContainer.css";
 
-const port = "";
-
 class LoginContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +22,7 @@ class LoginContainer extends React.Component {
   loginSubmit(e) {
     axios({
       method: 'post',
-      url: port+'/api/users/login',
+      url: this.props.port+'/api/users/login',
       data: {
         username: ReactDOM.findDOMNode(this.username).value,
         password: ReactDOM.findDOMNode(this.password).value
@@ -32,7 +30,7 @@ class LoginContainer extends React.Component {
     })
     .then((res) => {
       if(res.data == "Login Success"){
-        window.location = "/#/MainPage";
+        window.location = this.props.port + "/#/MainPage";
       }
       else if(res.data == "Username Not Found"){
         this.setState({usernameNotFoundWarning: true});
@@ -52,7 +50,7 @@ class LoginContainer extends React.Component {
   SignupSubmit(e) {
     axios({
       method: 'post',
-      url: port+'/api/users/signup',
+      url: this.props.port + '/api/users/signup',
       data: {
         username: ReactDOM.findDOMNode(this.usernameSignup).value,
         password: ReactDOM.findDOMNode(this.passwordSignup).value,

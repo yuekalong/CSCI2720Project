@@ -4,8 +4,6 @@ import ReactDOM from "react-dom";
 import { Toast, Button, Form } from "react-bootstrap";
 
 
-const port = "";
-
 class Comment extends React.Component{
     constructor(props){
         super(props);
@@ -59,7 +57,7 @@ class CommentBox extends React.Component{
             ReactDOM.findDOMNode(this.replyForm).reset();
             axios({
                 method: 'post',
-                url: port+'/api/comments/postComment',
+                url: this.props.port+'/api/comments/postComment',
                 data: {
                     locID: this.state.locID,
                     text: this.state.text,

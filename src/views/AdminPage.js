@@ -30,13 +30,13 @@ class AdminPage extends React.Component {
         </Navbar>
         <Container fluid>
           <br />
-          <FlushDataCard />
+          <FlushDataCard port={this.props.port}/>
           <br />
-          <CRUDLocation />
+          <CRUDLocation port={this.props.port}/>
           <br />
-          <CRUDUser />
+          <CRUDUser port={this.props.port}/>
           <br />
-          <ActiveChart />
+          <ActiveChart port={this.props.port}/>
         </Container>
       </div>
     );

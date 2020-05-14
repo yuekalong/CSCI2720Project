@@ -41,7 +41,7 @@ class ActiveChart extends React.Component {
       ],
     };
 
-    axios.get(`/api/admins/activeUserWithComments`).then((res) => {
+    axios.get(this.props.port+`/api/admins/activeUserWithComments`).then((res) => {
       if (res.data.success) {
         this.setState({
           commentOptions: {
@@ -61,7 +61,7 @@ class ActiveChart extends React.Component {
         });
       }
     });
-    axios.get(`/api/admins/activeUserWithFavourites`).then((res) => {
+    axios.get(this.props.port + `/api/admins/activeUserWithFavourites`).then((res) => {
       if (res.data.success) {
         this.setState({
           favouriteOptions: {

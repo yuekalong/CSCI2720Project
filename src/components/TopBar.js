@@ -23,7 +23,7 @@ class TopBar extends React.Component{
     }).
     then((res)=>{
       if(res.data == "logout done"){
-        window.location = this.props.port+"/#/";
+        window.location = this.props.port + "/#/";
       }
       else {
         alert("Login Fail");

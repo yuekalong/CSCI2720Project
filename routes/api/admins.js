@@ -265,17 +265,19 @@ router.put("/updateUser", async (req, res) => {
 // D - delete user data
 router.delete("/deleteUser/:userID", async (req, res) => {
   const userID = req.params.userID;
-
   const deleteData = await User.deleteOne({ userID: userID });
-  if (deleteData.n == 0)
+  if (deleteData.n == 0){
     return res.send({
       success: false,
       error: "Cannot delete: Invalid data format or data not exists!",
     });
-  else
+  }
+  else {
+    await Favourites.deleteOne({userID: userID});
     return res.send({
-      success: true,
+      success: true
     });
+  }
 });
 
 // 4. Obtain location data from CSV file upload (sample needs to be provided for user on data format)

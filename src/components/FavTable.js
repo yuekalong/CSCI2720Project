@@ -12,7 +12,7 @@ class FavTable extends React.Component{
             data:[]
         };
         this.delFav = this.delFav.bind(this);
-        axios.get("/api/favoriteLists/getfav").then((res) => {
+        axios.get(this.props.port + "/api/favoriteLists/getfav").then((res) => {
             if (res.data.success) {
               this.setState({ data: res.data.data });
             }
@@ -20,11 +20,11 @@ class FavTable extends React.Component{
     }
 
     delFav(e){
-        axios.put("/api/favoriteLists/delfav",{
+        axios.put(this.props.port + "/api/favoriteLists/delfav",{
             favouriteID: e.target.id
         })
         .then((res)=>{
-            axios.get("/api/favoriteLists/getfav").then((res) => {
+            axios.get(this.props.port + "/api/favoriteLists/getfav").then((res) => {
                 if (res.data.success) {
                   this.setState({ data: res.data.data });
                 }

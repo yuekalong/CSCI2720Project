@@ -54,13 +54,13 @@ class AboutThisProjectPage extends React.Component {
                 <ul>
                   <li>
                     <span className="page">Login Page</span>: done by Jacky Ng
-                    ()
+                    (1155108500)
                   </li>
                   <li>
                     <span className="page">Main Page</span>: done by Chun ()
                   </li>
                   <li>
-                    <span className="page">Location Page</span>: done by Chun ()
+                    <span className="page">Location Page</span>: done by Jacky Ng (1155108500)
                   </li>
                   <li>
                     <span className="page">Admin Page</span>: done by Yue Ka
