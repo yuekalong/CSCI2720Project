@@ -19,7 +19,6 @@ class LocPage extends React.Component{
             username: "",
             data: {},
             notFav: true,
-            map: true
         };
         this.addtofavorite = this.addtofavorite.bind(this);
         this.delFav = this.delFav.bind(this);
@@ -59,7 +58,6 @@ class LocPage extends React.Component{
                             latitude: "",
                             longitude: ""
                           },
-                        map: false
                     }); 
                 }
                 else {
