@@ -148,7 +148,7 @@ class LocPage extends React.Component{
                     }
                     <Card.Body style={{ height: '400px' }}>
                         {loc.address}
-                        <GoogleMap port={this.props.port} style={{ width: '90%', height: '350px'}} showOne={true} oneLat={loc.latitude} oneLog={loc.longitude}/>
+                        <GoogleMap showOne={true} locationdetail={this.state.data}/>
                     </Card.Body>
                 </Card>
                 <CommentsContainer port={this.props.port} locID={this.state.locID}/>

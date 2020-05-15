@@ -15,7 +15,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import "./assets/scss/paper-kit.scss";
 // import "./assets/demo/demo.css";
 
-import PageNavbar from "./PageNavbar.js";
 import MainPage from "./views/MainPage.js";
 import AdminPage from "./views/AdminPage.js";
 import LoginPage from "./views/LoginPage.js";
