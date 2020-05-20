@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "dev": "webpack-dev-server --devtool eval --progress --colors --content-base build"
   },
   "repository": {
@@ -47,13 +48,17 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.53",
     "apexcharts": "^3.19.0",
+    "aws-sdk": "^2.680.0",
     "babel-loader": "^7.1.5",
     "bcrypt": "^4.0.1",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
     "csvtojson": "^2.0.10",
+    "express-xml-bodyparser": "^0.3.0",
+    "fast-xml-parser": "^3.17.1",
     "geolib": "^3.2.1",
     "google-maps-react": "^2.0.6",
+    "he": "^1.2.0",
     "material-ui": "^0.20.2",
     "moment": "^2.24.0",
     "mongodb": "^3.5.7",
@@ -76,6 +81,7 @@
     "react-table-v6": "^6.8.6",
     "reactstrap": "^8.0.0",
     "webpack-cli": "^3.3.11",
+    "xml": "^1.0.1",
     "yelp-fusion": "^3.0.0"
   },
   "proxy": "http://localhost:2050"

@@ -42,7 +42,7 @@ class TopBar extends React.Component{
       <div>
         {this.props.logined ?
           <Navbar className="shadow" bg="light" expand="lg">
-            <Navbar.Brand href="/2050/#/MainPage">FoodRoundCU</Navbar.Brand>
+            <Navbar.Brand href={this.props.port + "/#/MainPage"}>FoodRoundCU</Navbar.Brand>
             <Nav className="mr-auto">
             </Nav>
             <Button><FaSearch onClick={this.searchtableOpen}/></Button>
@@ -51,7 +51,7 @@ class TopBar extends React.Component{
           </Navbar>
           :
           <Navbar className="shadow" bg="light" expand="lg">
-            <Navbar.Brand href="2050/#">FoodRoundCU</Navbar.Brand>
+            <Navbar.Brand href="#">FoodRoundCU</Navbar.Brand>
           </Navbar>
         }
          {this.state.searchtable && <SearchTable onClick={this.searchtableOpen} port={this.props.port}/>}

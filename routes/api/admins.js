@@ -97,7 +97,7 @@ router.post("/createLocation", (req, res) => {
     photo: restaurant.photo,
     address: restaurant.address,
     phoneNum: restaurant.phoneNum,
-    rating: restaurant.rating,
+    rating: restaurant.rating
   });
   newLocation.save((err) => {
     if (err)

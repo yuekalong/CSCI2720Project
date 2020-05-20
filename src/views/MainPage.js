@@ -39,13 +39,13 @@ class MainPage extends React.Component{
             <div>
                 <Row>
                     <Col>
-                        <TopBar logined={true} username={this.state.username} port={this.props.port}/>
+                        <TopBar port={this.props.port} logined={true} username={this.state.username}/>
                     </Col>
                 </Row>
                 <Container>
                     <Row>
                         <Col>
-                            <ResTable port={this.props.port}/>
+                            <ResTable port={this.props.port} />
                         </Col>
                     </Row>
                     <Row>
