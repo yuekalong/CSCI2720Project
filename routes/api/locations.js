@@ -45,26 +45,33 @@ router.post("/loc/:locID", (req, res) => {
 });
 
 router.get("/", async(req, res) => {
+  if(req.headers.authorization != "Bearer csci2720"){
+    res.set('Authorization', 'Bearer csci2720');
+    return res.status(401).send("Error: plz send request with correct authorization");
+  }
   let locList =  await Location.find().exec();
-  result = [];
+  var location = [];
   locList.forEach(loc=>{
     var lat = loc.latitude.value.toString();
     var lng = loc.longitude.value.toString();
-    result.push({
-      location: {
+    location.push({
         name: loc.locationName,
         id: loc.locationID,
         latitude: lat,
         longitude: lng
-      }
-    });
+      });
   });
   
+  var result = {locations: {location: location}}
   res.set('Content-Type', 'text/xml');
   res.send(parser.parse(result));
 });
 
 router.post("/", (req, res) => {
+  if(req.headers.authorization != "Bearer csci2720"){
+    res.set('Authorization', 'Bearer csci2720');
+    return res.status(401).send("Error: plz send request with correct authorization");
+  }
   reqLoc = req.body.location;
   let newLocation = new Location({
     locationID: generateLocationID(),
@@ -94,24 +101,37 @@ router.post("/", (req, res) => {
 });
 
 router.get("/:LocID", (req, res) => {
+  if(req.headers.authorization != "Bearer csci2720"){
+    res.set('Authorization', 'Bearer csci2720');
+    return res.status(401).send("Error: plz send request with correct authorization");
+  }
   Location.findOne({locationID: req.params.LocID}, (err, loc)=>{
     if (err) res.send(err);
     else {
-      res.set('Content-Type', 'text/xml');
-      let result = {
-        location: {
-          name: loc.locationName,
-          id: loc.locationID,
-          latitude: loc.latitude.value.toString(),
-          longitude: loc.longitude.value.toString()
-        }
+      if(loc ==  null){
+        res.send("Data not exists!");
       }
-      res.send(parser.parse(result));
+      else{
+        res.set('Content-Type', 'text/xml');
+        let result = {
+          location: {
+            name: loc.locationName,
+            id: loc.locationID,
+            latitude: loc.latitude.value.toString(),
+            longitude: loc.longitude.value.toString()
+          }
+        }
+        res.send(parser.parse(result));
+      }
     }
   });
 });
 
 router.put("/:LocID", (req, res) => {
+  if(req.headers.authorization != "Bearer csci2720"){
+    res.set('Authorization', 'Bearer csci2720');
+    return res.status(401).send("Error: plz send request with correct authorization");
+  }
   updatedLocation = req.body.location;
   var loc = {
     name: "",
@@ -119,13 +139,15 @@ router.put("/:LocID", (req, res) => {
     longitude: 0
   };
   Location.findOne({ locationID: req.params.LocID }, async (err, originalLocation)=>{
+    if(originalLocation == null) return res.send("Data not exists!");
+
     if(updatedLocation.name == null) loc.name = originalLocation.locationName;
     else loc.name = updatedLocation.name[0];
 
-    if(updatedLocation.latitude == null) loc.latitude = originalLocation.latitude;
+    if(updatedLocation.latitude == null) loc.latitude = originalLocation.latitude.value;
     else loc.latitude = parseFloat(updatedLocation.latitude[0]);
 
-    if(updatedLocation.longitude == null) loc.longitude = originalLocation.longitude;
+    if(updatedLocation.longitude == null) loc.longitude = originalLocation.longitude.value;
     else loc.longitude = parseFloat(updatedLocation.longitude[0]);
 
     const update = await Location.updateOne(
@@ -155,6 +177,10 @@ router.put("/:LocID", (req, res) => {
 });
 
 router.delete("/:LocID", async (req, res) => {
+  if(req.headers.authorization != "Bearer csci2720"){
+    res.set('Authorization', 'Bearer csci2720');
+    return res.status(401).send("Error: plz send request with correct authorization");
+  }
   const deleteData = await Location.findOneAndRemove({ locationID: req.params.LocID }, (err, deleteLoc) => {
     if (deleteLoc == null){
       res.send("Data not exists!");
